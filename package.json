@@ -1,15 +1,17 @@
 {
   "name": "lune-share",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "setup": "node scripts/setup.mjs",
     "dev": "vite",
     "build": "tsc -p tsconfig.app.json --noEmit && vite build",
     "deploy": "npm run build && node scripts/deploy.mjs",
-    "db:apply": "node scripts/deploy.mjs db",
-    "preview:cf": "npm run build && wrangler pages dev dist"
+    "db:apply": "node scripts/migrate.mjs",
+    "preview:cf": "npm run build && wrangler pages dev dist",
+    "db:local": "node scripts/migrate.mjs --local",
+    "update": "node scripts/update.mjs"
   },
   "dependencies": {
     "docx": "^9.7.1",

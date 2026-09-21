@@ -5,6 +5,7 @@ import { useStore, go, useIsMobile } from '../store'
 import { readImagePrompt, splitDescription } from '../lib/mjmeta'
 import { reencode, filesFromDataTransfer, fmtBytes } from '../lib/image'
 import { Masonry } from '../ui/Masonry'
+import { APP_VERSION, REPO_URL, checkLatest } from '../lib/version'
 import { PromptCard, Detail, TopBar } from './Gallery'
 
 const TABS = [['upload', '上传'], ['content', '内容'], ['invites', '邀请码'], ['import', '导入'], ['usage', '用量']] as const
@@ -13,12 +14,15 @@ export function Admin() {
   const { auth, route, refreshAuth } = useStore()
   const tab = route.name === 'admin' ? route.tab ?? 'upload' : 'upload'
   const mobile = useIsMobile()
+  const [latest, setLatest] = useState<{ latest: string; hasUpdate: boolean } | null>(null)
+  useEffect(() => { if (auth?.admin) checkLatest().then(setLatest) }, [auth?.admin])
   if (!auth?.admin) return <AdminLogin onDone={refreshAuth} />
   return (
     <div className={'main' + (mobile ? ' has-bottomnav' : '')}>
       <TopBar right={<div className="tabs">{TABS.map(([k, l]) => <button key={k} className={tab === k ? 'on' : ''} onClick={() => go(`/admin/${k}`)}>{l}</button>)}</div>} mobileRight={<span className="eyebrow" style={{ marginLeft: 'auto', marginRight: 6 }}>admin</span>} />
       {mobile && <nav className="bottomnav glass-strong">{TABS.map(([k, l]) => <button key={k} className={tab === k ? 'on' : ''} onClick={() => go(`/admin/${k}`)}>{l}</button>)}</nav>}
       <div className="page" style={{ maxWidth: 1100 }}>
+        {latest?.hasUpdate && <div className="update-note glass"><span>有新版本 <b>{latest.latest}</b>（你现在是 {APP_VERSION}）。在站点文件夹里打开命令行，运行 <code>npm run update</code> 就能升级，数据不会受影响。</span><a className="tiny" href={REPO_URL + '/blob/main/CHANGELOG.md'} target="_blank" rel="noopener">更新了什么</a></div>}
         {tab === 'upload' && <Upload />}
         {tab === 'content' && <Content />}
         {tab === 'invites' && <Invites />}
@@ -419,12 +423,12 @@ function Import() {
 function Usage() {
   const [u, setU] = useState<Awaited<ReturnType<typeof api.usage>> | null>(null)
   useEffect(() => { api.usage().then(setU) }, [])
-  const rows = useMemo(() => u ? [['Prompt', String(u.prompts)], ['图片', `${u.images} 张 · ${fmtBytes(u.imageBytes)}${u.kvLimitBytes ? ` / ${fmtBytes(u.kvLimitBytes)} (KV)` : ' (R2)'}`], ['邀请码', `${u.activeInvites} 有效 / ${u.invites} 总`], ['7 天内活跃设备', String(u.activeSessions7d)], ['图片存储', u.storage.toUpperCase()]] : [], [u])
+  const rows = useMemo(() => u ? [['Prompt', String(u.prompts)], ['图片', `${u.images} 张 · ${fmtBytes(u.imageBytes)}${u.kvLimitBytes ? ` / ${fmtBytes(u.kvLimitBytes)} (KV)` : ' (R2)'}`], ['邀请码', `${u.activeInvites} 有效 / ${u.invites} 总`], ['7 天内活跃设备', String(u.activeSessions7d)], ['图片存储', u.storage.toUpperCase()], ['版本', APP_VERSION]] : [], [u])
   return (
     <div className="stack">
       <div className="head"><span className="eyebrow">admin · usage</span><h1>用量</h1></div>
       <div className="card glass">{rows.map(([k, v]) => <div key={k} className="row" style={{ justifyContent: 'space-between' }}><span>{k}</span><span className="mono">{v}</span></div>)}{!u && <p className="tiny">读取中…</p>}</div>
-      <p className="tiny" style={{ textAlign: 'center' }}>built with LUNE Share</p>
+      <p className="tiny" style={{ textAlign: 'center' }}>built with LUNE Share {APP_VERSION}</p>
     </div>
   )
 }

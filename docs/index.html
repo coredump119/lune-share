@@ -336,9 +336,10 @@ Choose 1 or 2 (1):</div><div class="a"><b>图片存哪里。直接按回车选 1
     <tr><td>背景图</td><td>用你自己的图替换 <code>public</code> 文件夹里的 <code>day.jpg</code>（浅色模式）和 <code>night.jpg</code>（深色模式），文件名保持一样</td></tr>
     <tr><td>用自己买的域名</td><td>这个在 Cloudflare 网页后台点：Workers &amp; Pages → 你的项目 → Custom domains</td></tr>
   </table></div>
-  <details class="help"><summary>这个模板出了新版本，我想升级</summary>
-    <p>重新下载一次压缩包并解压，把<b>旧文件夹</b>里的 <code>wrangler.toml</code> 和 <code>.dev.vars</code> 两个文件复制到<b>新文件夹</b>里。然后在新文件夹里打开命令行，依次运行下面三条。你的图片和邀请码都存在 Cloudflare 上，不在这个文件夹里，所以不会丢。</p>
-    <div class="cmd">npm install --legacy-peer-deps</div><div class="cmd">npm run db:apply</div><div class="cmd">npm run deploy</div></details>
+  <h3>升级到新版本</h3>
+  <p>后台页面顶上出现「有新版本」的提示时，像第 4 步那样打开命令行并进到文件夹里，粘贴这一条：</p>
+  <div class="cmd">npm run update</div>
+  <p class="muted small">它会自动下载新代码、保留你的 <code>wrangler.toml</code>、<code>.dev.vars</code> 和背景图、更新数据库、重新发布。你的图片和邀请码都在 Cloudflare 上，不会丢。大约两分钟。</p>
   <div class="note"><b>换电脑之前</b>，把文件夹里的 <code>wrangler.toml</code> 和 <code>.dev.vars</code> 这两个文件备份好。有它们在，任何一台电脑都能继续管理你的站。</div>
 </section>
 

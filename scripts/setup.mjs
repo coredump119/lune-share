@@ -111,7 +111,7 @@ if (DRY) console.log(c.dim(toml.split('\n').map((l) => '  | ' + l).join('\n')));
 console.log(c.g('  ✓ wrangler.toml'))
 
 step(6, 'Create tables')
-if (!wr(['d1', 'execute', slug, '--remote', '--file=./schema.sql', '--yes']).ok) die('Applying schema.sql failed. Run it again with: npm run db:apply')
+if (!DRY && spawnSync('node', ['scripts/migrate.mjs'], { stdio: 'inherit', shell: process.platform === 'win32' }).status !== 0) die('Creating tables failed. Run it again with: npm run db:apply')
 console.log(c.g('  ✓ schema applied'))
 
 step(7, 'Pages project and secrets')

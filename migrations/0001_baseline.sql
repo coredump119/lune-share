@@ -28,3 +28,5 @@ CREATE TABLE IF NOT EXISTS access_log (id INTEGER PRIMARY KEY AUTOINCREMENT, inv
 CREATE TABLE IF NOT EXISTS attempts (key TEXT PRIMARY KEY, n INTEGER NOT NULL, minute INTEGER NOT NULL);
 CREATE TABLE IF NOT EXISTS invite_collections (invite_id TEXT NOT NULL, collection_id TEXT NOT NULL, PRIMARY KEY (invite_id, collection_id));
 -- invites.scope: 'all' | 'some' (allowed collections in invite_collections; unfiled prompts only visible to 'all')
+-- every migration ends by recording its own number
+INSERT OR IGNORE INTO schema_version (version, applied_at) VALUES (1, strftime('%s','now') * 1000);

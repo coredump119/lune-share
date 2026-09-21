@@ -41,7 +41,7 @@ npm run setup
 | 改站点名字 / 小字 | 改 `wrangler.toml` 里的 `SITE_NAME` / `SITE_TAGLINE`，然后 `npm run deploy` |
 | 只允许自己批量导出 | `wrangler.toml` 里 `EXPORT_FOR = "admin"`，然后 `npm run deploy` |
 | 换背景图 | 替换 `public/day.jpg` 和 `public/night.jpg`，然后 `npm run deploy` |
-| 拿到模板的新版本 | `git pull`，`npm install --legacy-peer-deps`，`npm run db:apply`，`npm run deploy` |
+| 拿到模板的新版本 | `npm run update`（自动保留你的配置和背景图；后台有新版本时会提示） |
 | 忘了管理密钥 | 看项目文件夹里的 `.dev.vars` |
 | 绑自己的域名 | Cloudflare 后台 → Workers & Pages → 你的项目 → Custom domains |
 
@@ -63,8 +63,10 @@ npm run setup
 ```
 src/                 React 前端（Vite）
 functions/api/       Cloudflare Pages Functions：鉴权、邀请码、prompt、图片
-schema.sql           D1 表结构
+migrations/          D1 表结构，按版本号迁移
 scripts/setup.mjs    一键配置
+scripts/update.mjs   一键升级
+scripts/migrate.mjs  跑迁移（setup / update 会自动调用）
 docs/                教程页（GitHub Pages）
 ```
 
