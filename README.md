@@ -30,6 +30,8 @@ npm run setup
 
 打开 `你的网址/#/admin`，粘贴管理密钥，在「邀请码」里生成第一个码，就可以开始上传了。
 
+想把代码也存在自己的 GitHub 上：点页面右上角绿色的 **Use this template → Create a new repository**（建议选 Private），然后 clone 你自己的那个仓库。
+
 不会用 git 也没关系：点页面右上角绿色的 **Code → Download ZIP**，解压后在那个文件夹里打开终端，从 `npm install` 开始。
 
 ## 之后
