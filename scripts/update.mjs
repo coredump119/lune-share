@@ -11,6 +11,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 const REPO = 'coredump119/lune-share'
+// files that older versions had and the template no longer ships
+const REMOVE = ['schema.sql']
 const KEEP = ['wrangler.toml', '.dev.vars', 'node_modules', 'dist', '.git', '.wrangler', 'public/day.jpg', 'public/night.jpg']
 const c = { b: (s) => `\x1b[1m${s}\x1b[0m`, g: (s) => `\x1b[32m${s}\x1b[0m`, y: (s) => `\x1b[33m${s}\x1b[0m`, r: (s) => `\x1b[31m${s}\x1b[0m`, d: (s) => `\x1b[2m${s}\x1b[0m` }
 const die = (m) => { console.error('\n' + c.r('✘ ' + m)); process.exit(1) }
@@ -45,7 +47,7 @@ const copy = (rel) => {
   else cpSync(from, to)
 }
 for (const n of readdirSync(srcDir)) copy(n)
-// docs/ is the tutorial site, not needed in a deployed copy
+for (const r of REMOVE) if (existsSync(r)) rmSync(r)
 rmSync(tmp, { recursive: true, force: true })
 console.log(c.g('  ✓ files updated'))
 

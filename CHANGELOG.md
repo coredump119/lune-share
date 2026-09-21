@@ -9,3 +9,7 @@
 
 ## 1.0.0 · 2026-09-21
 - 首个公开版本
+- 从 1.0.0 升级：这个版本还没有 `npm run update`，第一次要先在站点文件夹里运行下面这条把升级脚本拿过来，之后就都是 `npm run update` 了：
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/coredump119/lune-share/main/scripts/update.mjs -o scripts/update.mjs && node scripts/update.mjs
+  ```
