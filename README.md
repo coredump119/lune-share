@@ -67,6 +67,7 @@ migrations/          D1 表结构，按版本号迁移
 scripts/setup.mjs    一键配置
 scripts/update.mjs   一键升级
 scripts/migrate.mjs  跑迁移（setup / update 会自动调用）
+scripts/release.mjs  维护者发版：升版本号、写 CHANGELOG、打标签、建 release
 docs/                教程页（GitHub Pages）
 ```
 
