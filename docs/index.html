@@ -236,7 +236,7 @@ C:\Users\你的名字\Desktop\<span class="y">lune-share-main</span>&gt;<span cl
   <p>这条命令会自动下载网站需要的零件。你只要粘贴、回车，然后等它跑完。</p>
   <ol class="do">
     <li>点复制，在命令行窗口里粘贴（<span class="mac"><span class="kbd">⌘</span> + <span class="kbd">V</span></span><span class="win">鼠标右键</span>），按 <span class="kbd">回车</span>：
-      <div class="cmd">npm install --legacy-peer-deps</div></li>
+      <div class="cmd">npm install</div></li>
     <li>屏幕上会滚过一些字，中间可能停顿十几秒像卡住了一样。<b>别关窗口，等着就行。</b></li>
   </ol>
   <span class="see">跑完的样子</span>
@@ -369,7 +369,7 @@ Choose 1 or 2 (1):</div><div class="a"><b>图片存哪里。直接按回车选 1
   <details><summary>我想彻底删掉这个站</summary>
     <p>登录 Cloudflare 网页后台 → Workers &amp; Pages → 点你的项目 → Settings 最下面 Delete。再到 Storage &amp; Databases 里把同名的 D1 和 KV 删掉。删完就什么都不剩了。</p></details>
   <details><summary>我会用 git，有没有快一点的路</summary>
-    <div class="cmd">git clone https://github.com/coredump119/lune-share.git my-prompts && cd my-prompts && npm install --legacy-peer-deps && npm run setup</div>
+    <div class="cmd">git clone https://github.com/coredump119/lune-share.git my-prompts && cd my-prompts && npm install && npm run setup</div>
     <p>想把代码存在自己的 GitHub 上，就在仓库页点 <b>Use this template</b>，建议建成 Private。</p></details>
 </section>
 </main>

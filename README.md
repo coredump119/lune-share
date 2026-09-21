@@ -22,7 +22,7 @@
 ```bash
 git clone https://github.com/coredump119/lune-share.git my-prompts
 cd my-prompts
-npm install --legacy-peer-deps
+npm install
 npm run setup
 ```
 
@@ -75,6 +75,6 @@ docs/                教程页（GitHub Pages）
 
 ## English, briefly
 
-An invite-only gallery for sharing Midjourney prompts, deployed to **your own** free Cloudflare account (Pages + D1 + KV, no card). One code per person, revocable, optional expiry and device cap, per-collection access, contributor codes with moderation, client-side image re-encoding so MJ metadata never leaves the browser, LUNE import, `.lune.json` / Word export. `npm install --legacy-peer-deps && npm run setup` does everything. The UI is in Chinese.
+An invite-only gallery for sharing Midjourney prompts, deployed to **your own** free Cloudflare account (Pages + D1 + KV, no card). One code per person, revocable, optional expiry and device cap, per-collection access, contributor codes with moderation, client-side image re-encoding so MJ metadata never leaves the browser, LUNE import, `.lune.json` / Word export. `npm install && npm run setup` does everything. The UI is in Chinese.
 
 MIT. Made by NullPointer, sister project of [LUNE](https://github.com/coredump119/lune-releases).

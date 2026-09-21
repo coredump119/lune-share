@@ -52,7 +52,7 @@ rmSync(tmp, { recursive: true, force: true })
 console.log(c.g('  ✓ files updated'))
 
 console.log('\n[3/5] Installing dependencies')
-if (!run('npm', ['install', '--legacy-peer-deps', '--no-audit', '--no-fund'])) die('npm install failed. Run it again; it is usually the network.')
+if (!run('npm', ['install'])) die('npm install failed. Run it again; it is usually the network.')
 
 console.log('\n[4/5] Database migrations')
 if (!run('node', ['scripts/migrate.mjs'])) die('Migration failed. Your site still runs the previous version; run `npm run update` again once the problem is fixed.')
