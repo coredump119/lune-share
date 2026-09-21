@@ -1,0 +1,2 @@
+.masonry { display: flex; justify-content: center; align-items: flex-start; width: 100%; }
+.masonry-col { display: flex; flex-direction: column; flex: 0 0 auto; min-width: 0; }

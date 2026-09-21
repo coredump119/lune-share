@@ -1,0 +1,79 @@
+:root {
+  /* palette · pink dune */
+  --dune-100: #F7EEF2;
+  --dune-200: #F0D9E4;
+  --dune-300: #C1A0AC;
+  --dune-500: #806C79;
+  --dune-700: #4A3F4B;
+  --dune-900: #16131F;
+  --moon: #F5C6D6;
+
+  /* day */
+  --ink: #33293A;
+  --ink-soft: #5F5060;
+  --ink-faint: #8B7884;
+  --ink-strong: #16131F;
+  --paper: rgba(255, 250, 252, 0.54);
+  --paper-strong: rgba(255, 250, 252, 0.76);
+  --paper-inner: rgba(255, 255, 255, 0.34);
+  --paper-card: rgba(255, 250, 252, 0.72);   /* cards: no backdrop blur (perf), so a bit more opaque */
+  --text-glow: 0 0 1px rgba(255,250,252,0.9), 0 0 18px rgba(255,250,252,0.85), 0 1px 14px rgba(255,250,252,0.7);
+  --paper-solid: #FBF5F8;
+  --hairline: rgba(74, 63, 75, 0.14);
+  --hairline-soft: rgba(74, 63, 75, 0.08);
+  --glass-edge: rgba(255, 255, 255, 0.62);
+  --glass-blur: blur(26px) saturate(1.25);
+  --accent: #D98CA8;
+  --accent-soft: rgba(217, 140, 168, 0.22);
+  --shadow: inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(255,255,255,0.15), 0 24px 70px -28px rgba(74, 63, 75, 0.45);
+  --shadow-lg: inset 0 1px 0 rgba(255,255,255,0.75), 0 48px 140px -36px rgba(22, 19, 31, 0.55);
+  --scrim: rgba(74, 63, 75, 0.22);
+  --backdrop-fallback: linear-gradient(180deg, #C6B4C9 0%, #E9CBD3 38%, #F1D6DC 60%, #E7C1C6 100%);
+
+  --font-display: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', ui-serif, Georgia, serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'PingFang SC', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* modular type scale */
+  --t-xs: 11px; --t-sm: 12.5px; --t-md: 13.5px; --t-lg: 15px; --t-xl: 18px; --t-2xl: 24px; --t-3xl: 36px; --t-4xl: 56px;
+  /* soft-UI (light neumorphism) for controls only */
+  --neu-out: -3px -3px 8px rgba(255, 255, 255, 0.55), 3px 4px 10px rgba(74, 63, 75, 0.14);
+  --neu-out-hover: -4px -4px 10px rgba(255, 255, 255, 0.6), 5px 6px 14px rgba(74, 63, 75, 0.18);
+  --neu-in: inset 2px 2px 6px rgba(74, 63, 75, 0.14), inset -2px -2px 6px rgba(255, 255, 255, 0.55);
+  --neu-face: linear-gradient(145deg, rgba(255,255,255,0.55), rgba(255,255,255,0.18));
+  --r: 8px;
+  --r-lg: 14px;
+  --r-card: 22px;
+  --r-sheet: 28px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 480ms;
+  --dur-fast: 200ms;
+  --gutter: clamp(20px, 4vw, 56px);
+  --content-w: 1240px;
+}
+
+:root[data-theme='dark'] {
+  --ink: #EADDE3;
+  --ink-soft: #C9B4BE;
+  --ink-faint: #A8929C;
+  --ink-strong: #FBF3F6;
+  --paper: rgba(22, 19, 31, 0.50);
+  --paper-strong: rgba(22, 19, 31, 0.72);
+  --paper-inner: rgba(255, 255, 255, 0.05);
+  --paper-card: rgba(26, 22, 34, 0.66);
+  --neu-out: -3px -3px 8px rgba(255, 255, 255, 0.05), 3px 4px 10px rgba(0, 0, 0, 0.45);
+  --neu-out-hover: -4px -4px 10px rgba(255, 255, 255, 0.06), 5px 6px 14px rgba(0, 0, 0, 0.55);
+  --neu-in: inset 2px 2px 6px rgba(0, 0, 0, 0.5), inset -2px -2px 6px rgba(255, 255, 255, 0.06);
+  --neu-face: linear-gradient(145deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+  --text-glow: 0 0 1px rgba(10,8,14,0.95), 0 0 14px rgba(10,8,14,0.95), 0 0 30px rgba(10,8,14,0.85), 0 1px 16px rgba(10,8,14,0.8);
+  --paper-solid: #1E1A26;
+  --hairline: rgba(240, 217, 228, 0.16);
+  --hairline-soft: rgba(240, 217, 228, 0.08);
+  --glass-edge: rgba(255, 255, 255, 0.16);
+  --accent: #E9A9C1;
+  --accent-soft: rgba(233, 169, 193, 0.2);
+  --shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 24px 70px -28px rgba(0, 0, 0, 0.7);
+  --shadow-lg: inset 0 1px 0 rgba(255,255,255,0.2), 0 48px 140px -36px rgba(0, 0, 0, 0.85);
+  --scrim: rgba(10, 8, 14, 0.45);
+  --backdrop-fallback: linear-gradient(180deg, #2A2632 0%, #5B4650 40%, #7A5660 65%, #4A3F4B 100%);
+}

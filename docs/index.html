@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUNE Share · 安装教程</title>
+<meta name="description" content="十分钟，把邀请制的 Midjourney prompt 分享站装到你自己的 Cloudflare 免费账号上。">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6eef2;--paper:#fffafc;--ink:#2f2733;--soft:#6e5f6a;--faint:#9a8791;--line:#e6d6de;--accent:#c9789a;--accent-soft:#f5dfe8;--code:#2a2230;--code-ink:#f3e6ee;--ok:#5b8a6e}
+:root[data-theme="dark"]{--bg:#16131f;--paper:#1f1b2a;--ink:#f0e4ec;--soft:#b9a6b3;--faint:#8a7a87;--line:#342d40;--accent:#f5c6d6;--accent-soft:#3a2c3a;--code:#0f0d16;--code-ink:#f0e4ec;--ok:#8fc7a4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16131f;--paper:#1f1b2a;--ink:#f0e4ec;--soft:#b9a6b3;--faint:#8a7a87;--line:#342d40;--accent:#f5c6d6;--accent-soft:#3a2c3a;--code:#0f0d16;--code-ink:#f0e4ec;--ok:#8fc7a4}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 -apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header{padding:72px 0 40px;text-align:center}
+.eyebrow{font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--soft)}
+h1{font:italic 400 clamp(40px,8vw,64px)/1.1 "Cormorant Garamond",serif;margin:14px 0 16px;text-wrap:balance}
+.lede{color:var(--soft);max-width:520px;margin:0 auto;text-wrap:pretty}
+.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:10px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px;letter-spacing:.04em;background:var(--paper);transition:border-color .15s,transform .15s}
+.btn:hover{border-color:var(--accent);transform:translateY(-1px)}.btn.primary{background:var(--ink);color:var(--bg);border-color:transparent}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:36px 0 8px}
+.fact{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
+.fact b{display:block;font:500 26px/1.1 "Cormorant Garamond",serif}.fact span{font-size:12.5px;color:var(--soft)}
+nav.toc{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin-top:28px}
+nav.toc .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-top:8px;padding-bottom:8px}nav.toc .wrap::-webkit-scrollbar{display:none}
+nav.toc a{flex:0 0 auto;padding:7px 12px;border-radius:8px;font-size:13px;color:var(--soft);text-decoration:none}nav.toc a:hover{color:var(--ink);background:var(--accent-soft)}
+section{padding:44px 0 8px;scroll-margin-top:56px}
+h2{font:400 32px/1.2 "Cormorant Garamond",serif;margin:0 0 6px;display:flex;align-items:baseline;gap:12px}
+h2 .n{font:500 12px/1 "JetBrains Mono",monospace;color:var(--accent);letter-spacing:.1em}
+h3{font-size:16px;margin:26px 0 6px}
+p{margin:10px 0}a{color:var(--accent)}
+.muted{color:var(--soft)}.small{font-size:13.5px}
+code{font:13.5px "JetBrains Mono",monospace;background:var(--accent-soft);padding:2px 6px;border-radius:5px}
+.cmd{position:relative;background:var(--code);color:var(--code-ink);border-radius:12px;padding:16px 84px 16px 18px;margin:14px 0;font:13.5px/1.7 "JetBrains Mono",monospace;overflow-x:auto;white-space:pre}
+.cmd button{position:absolute;top:10px;right:10px;height:30px;padding:0 12px;border-radius:8px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:var(--code-ink);font:12px/1 inherit;cursor:pointer}
+.cmd button:hover{background:rgba(255,255,255,.16)}.cmd button.done{color:var(--ok);border-color:var(--ok)}
+.term{background:var(--code);color:var(--code-ink);border-radius:12px;padding:16px 18px;margin:14px 0;font:12.5px/1.75 "JetBrains Mono",monospace;overflow-x:auto;white-space:pre}
+.term .d{opacity:.5}.term .g{color:#8fc7a4}.term .y{color:#f5c6d6}
+.note{border-left:3px solid var(--accent);background:var(--paper);border-radius:0 10px 10px 0;padding:12px 16px;margin:16px 0;font-size:14.5px}
+.steps{counter-reset:s;list-style:none;padding:0;margin:14px 0}.steps li{counter-increment:s;position:relative;padding:0 0 14px 40px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:2px;width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--ink);font:500 12px/26px "JetBrains Mono",monospace;text-align:center}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:14px 0}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{font:500 11px/1.4 "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.tw{overflow-x:auto}
+details{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:0 16px;margin:10px 0}summary{cursor:pointer;padding:14px 0;font-weight:500;list-style:none}summary::-webkit-details-marker{display:none}summary::after{content:"＋";float:right;color:var(--faint)}details[open] summary::after{content:"－"}details>*:last-child{margin-bottom:16px}
+footer{padding:56px 0 64px;text-align:center;color:var(--faint);font-size:13px}
+.theme{position:fixed;right:14px;bottom:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;font-size:16px;z-index:9}
+@media (max-width:560px){.facts{grid-template-columns:1fr}header{padding-top:48px}.cmd{padding-right:18px;padding-top:46px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <span class="eyebrow">LUNE Share · Setup Guide</span>
+  <h1>你自己的邀请制 prompt 站</h1>
+  <p class="lede">给 Midjourney 创作者。一人一码，随时作废。整个站跑在你自己的 Cloudflare 免费账号上，数据不经过任何别人。</p>
+  <div class="cta"><a class="btn primary" href="#install">开始安装</a><a class="btn" href="https://github.com/coredump119/lune-share">GitHub 仓库</a></div>
+  <div class="facts">
+    <div class="fact"><b>10 分钟</b><span>从零到上线</span></div>
+    <div class="fact"><b>0 元</b><span>不需要绑卡</span></div>
+    <div class="fact"><b>4 条命令</b><span>其余全自动</span></div>
+  </div>
+</header>
+<nav class="toc"><div class="wrap"><a href="#need">准备</a><a href="#install">安装</a><a href="#first">第一次使用</a><a href="#daily">日常</a><a href="#change">修改和更新</a><a href="#quota">免费额度</a><a href="#faq">常见问题</a></div></nav>
+<main class="wrap">
+
+<section id="need">
+  <h2><span class="n">00</span>准备两样东西</h2>
+  <ol class="steps">
+    <li><b>Cloudflare 账号</b>。没有的话去 <a href="https://dash.cloudflare.com/sign-up">dash.cloudflare.com/sign-up</a> 用邮箱注册，免费，不用填卡。</li>
+    <li><b>Node.js 18 或更新</b>。去 <a href="https://nodejs.org">nodejs.org</a> 下载左边那个 LTS 版本，一路下一步装完。</li>
+  </ol>
+  <p class="muted small">装完 Node 后打开终端（Mac：启动台搜「终端」；Windows：开始菜单搜「PowerShell」），输入 <code>node -v</code>，看到 <code>v18</code> 以上的数字就好了。</p>
+</section>
+
+<section id="install">
+  <h2><span class="n">01</span>安装</h2>
+  <h3>拿到代码</h3>
+  <p>会用 git 的话：</p>
+  <div class="cmd">git clone https://github.com/coredump119/lune-share.git my-prompts
+cd my-prompts</div>
+  <p>不会用 git：打开 <a href="https://github.com/coredump119/lune-share">GitHub 仓库</a>，点绿色的 <b>Code → Download ZIP</b>，解压。然后在终端里输入 <code>cd </code>（后面有个空格），把解压出来的文件夹拖进终端窗口，回车。</p>
+  <h3>装依赖</h3>
+  <div class="cmd">npm install --legacy-peer-deps</div>
+  <p class="muted small">大约一分钟。看到 warning 不用管，没有红色的 ERR 就行。</p>
+  <h3>一键配置</h3>
+  <div class="cmd">npm run setup</div>
+  <p>它会依次做这些事：</p>
+  <ol class="steps">
+    <li>打开浏览器让你<b>登录 Cloudflare</b>，点 Allow 授权。这一步授权的是你电脑上的命令行工具，不是我，也不是任何第三方。</li>
+    <li>问你四个问题。直接回车就是用括号里的默认值。</li>
+    <li>在你的账号里建数据库、图片存储，生成两个随机密钥，构建并部署。</li>
+  </ol>
+  <div class="term"><span class="d">[2/8]</span> A few questions
+  Project id, becomes &lt;id&gt;.pages.dev <span class="d">(my-prompts)</span>: <span class="y">moon-prompts</span>
+  Site name shown to visitors <span class="d">(Prompt Share)</span>: <span class="y">月光词包</span>
+  Small line above the name <span class="d">(invite only)</span>: <span class="y">by moon</span>
+  Where should images live?
+    1) KV  — free, no credit card, 1 GB total
+    2) R2  — free up to 10 GB, needs a card on file
+  Choose 1 or 2 <span class="d">(1)</span>: <span class="y">1</span>
+<span class="d">…</span>
+<span class="g">Done.</span>
+  Site        https://moon-prompts.pages.dev
+  Admin       https://moon-prompts.pages.dev/#/admin
+  Admin key   <span class="y">Xk3…（一串随机字符）</span></div>
+  <div class="note"><b>Project id</b> 会变成你的网址，只能用小写字母、数字和横线。如果这个名字已经被别人占了，Cloudflare 会自动在后面加几个字符，以最后打印出来的网址为准。</div>
+  <div class="note"><b>Admin key 就是你的后台密码。</b>它同时保存在项目文件夹的 <code>.dev.vars</code> 文件里。不要发给别人，不要截图发群。</div>
+</section>
+
+<section id="first">
+  <h2><span class="n">02</span>第一次使用</h2>
+  <ol class="steps">
+    <li>打开 <code>你的网址/#/admin</code>，粘贴 Admin key 登录。</li>
+    <li>进「<b>邀请码</b>」，填个备注（比如朋友的名字），点生成。<b>明文只显示这一次</b>，马上复制发给对方。库里只存哈希，之后连你自己也看不到。</li>
+    <li>进「<b>上传</b>」，把 MJ 原图拖进去，或者直接 <code>⌘V</code> 粘贴。如果是 MJ 下载的原图，prompt 和参数会自动读出来。</li>
+    <li>把你的网址和邀请码发给朋友。对方输入码就能看。</li>
+  </ol>
+  <div class="note">图片会先在你的浏览器里重新编码成 webp 再上传。MJ 写在原图里的完整 prompt 和 <code>--p</code> 不会到服务器。每条 prompt 的 <code>--p</code> 公不公开由你单独决定，默认不公开。</div>
+</section>
+
+<section id="daily">
+  <h2><span class="n">03</span>日常</h2>
+  <div class="tw"><table>
+    <tr><th>想做的事</th><th>在哪里</th></tr>
+    <tr><td>怀疑某个码被转发了</td><td>邀请码 → 点那一行看设备和访问记录 → 作废。对方下一次请求就会被踢出去</td></tr>
+    <tr><td>给码设有效期、限制设备数</td><td>生成时填天数和设备数</td></tr>
+    <tr><td>同一个站放好几个词包，不同的人看不同的</td><td>上传页底部建「集合」，生成邀请码时只勾对应的集合。没放进集合的 prompt 只有「全部」权限的码能看到</td></tr>
+    <tr><td>让朋友也能投稿</td><td>生成码时打开「可投稿」。投稿先进「内容 → 待审核」，你通过了才公开</td></tr>
+    <tr><td>已经在 LUNE 里整理好了</td><td>LUNE 里导出 <code>.lune.json</code>，后台「导入」选这个文件。文件夹会变成集合</td></tr>
+    <tr><td>一次处理很多条</td><td>内容 → 选择 → 批量发布 / 下架 / 置顶 / 删除</td></tr>
+    <tr><td>备份或者搬家</td><td>画廊标题下的「导出」，可以导成 <code>.lune.json</code> 或 Word</td></tr>
+  </table></div>
+</section>
+
+<section id="change">
+  <h2><span class="n">04</span>修改和更新</h2>
+  <p>改完任何东西之后，在项目文件夹里运行这一条就会重新上线：</p>
+  <div class="cmd">npm run deploy</div>
+  <div class="tw"><table>
+    <tr><th>改什么</th><th>怎么改</th></tr>
+    <tr><td>站点名字、名字上面的小字</td><td>用记事本打开 <code>wrangler.toml</code>，改 <code>SITE_NAME</code> 和 <code>SITE_TAGLINE</code></td></tr>
+    <tr><td>不想让访客一键导出</td><td><code>wrangler.toml</code> 里把 <code>EXPORT_FOR</code> 改成 <code>"admin"</code></td></tr>
+    <tr><td>登录保持多少天</td><td><code>SESSION_DAYS</code></td></tr>
+    <tr><td>背景图</td><td>替换 <code>public/day.jpg</code>（浅色）和 <code>public/night.jpg</code>（深色），建议宽 2400 像素以内</td></tr>
+    <tr><td>用自己的域名</td><td>Cloudflare 后台 → Workers &amp; Pages → 你的项目 → Custom domains</td></tr>
+  </table></div>
+  <h3>拿到模板的新版本</h3>
+  <div class="cmd">git pull
+npm install --legacy-peer-deps
+npm run db:apply
+npm run deploy</div>
+  <p class="muted small">用 ZIP 下载的话：下载新的 ZIP，把旧文件夹里的 <code>wrangler.toml</code> 和 <code>.dev.vars</code> 两个文件复制进新文件夹，再运行后三条。你的数据在 Cloudflare 上，不在这个文件夹里，不会丢。</p>
+  <div class="note"><b>换电脑前</b>把 <code>wrangler.toml</code> 和 <code>.dev.vars</code> 备份好。这两个文件是 setup 为你生成的，不会上传到 GitHub。</div>
+</section>
+
+<section id="quota">
+  <h2><span class="n">05</span>免费额度够用吗</h2>
+  <div class="tw"><table>
+    <tr><th>服务</th><th>免费额度</th><th>大概意味着</th></tr>
+    <tr><td>Pages Functions</td><td>每天 10 万次请求</td><td>一个访客翻一遍约几十次请求</td></tr>
+    <tr><td>D1 数据库</td><td>5 GB，每天 500 万行读</td><td>文字内容永远用不完</td></tr>
+    <tr><td>KV（默认存图）</td><td>共 1 GB；每天 1000 次写、10 万次读</td><td>约 3000 张图；一天最多上传 1000 张；图片会在访客浏览器里缓存一天</td></tr>
+    <tr><td>R2（可选存图）</td><td>10 GB</td><td>需要在 Cloudflare 绑一次卡才能开通</td></tr>
+  </table></div>
+  <p class="muted small">数字以 <a href="https://developers.cloudflare.com/workers/platform/pricing/">Cloudflare 官方定价页</a>为准。免费档超额时请求会被拒绝，不会产生费用。只有你主动开通了付费项（比如绑卡后的 R2 超过 10 GB）才会计费。</p>
+</section>
+
+<section id="faq">
+  <h2><span class="n">06</span>常见问题</h2>
+  <details><summary>有没有「粘贴一个 API key 就能用」的网页版，不用装东西？</summary>
+    <p>没有，而且是故意不做的。邀请制要成立，就必须有一段只在服务器上运行、访客碰不到的代码来检查邀请码和保管密钥。如果做成一个公共网页让你粘贴 Cloudflare 的 API key，那这个 key 要么存在我的服务器上（你的账号就交到了别人手里），要么存在访客的浏览器里（任何访客都能拿走）。两种都不安全。</p>
+    <p>现在的方式是你在自己电脑上登录自己的 Cloudflare，脚本替你把所有步骤跑完。多花几分钟，换来的是整个站从头到尾只属于你。</p></details>
+  <details><summary>setup 中途失败了怎么办？</summary>
+    <p>直接再运行一次 <code>npm run setup</code>，它会问你是否覆盖，选 y。已经建好的数据库和存储会被找到并继续使用，不会重复创建。最常见的原因是网络问题，或者浏览器登录那一步没点 Allow。</p></details>
+  <details><summary>忘了 Admin key</summary>
+    <p>打开项目文件夹里的 <code>.dev.vars</code>（文件名以点开头，Mac 上按 <code>⌘⇧.</code> 显示隐藏文件）。如果这个文件也丢了，运行下面这条设一个新的，然后 <code>npm run deploy</code>：</p>
+    <div class="cmd">npx wrangler pages secret put ADMIN_SECRET --project-name 你的项目id</div></details>
+  <details><summary>我想从 KV 换到 R2</summary>
+    <p>在 Cloudflare 后台开通 R2，运行 <code>npx wrangler r2 bucket create 你的项目id-images</code>，然后在 <code>wrangler.toml</code> 里加上下面这段，再 <code>npm run deploy</code>。KV 那段保留着不要删，旧图片会继续从 KV 读，新图片写进 R2。</p>
+    <div class="cmd">[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "你的项目id-images"</div></details>
+  <details><summary>访客能看到我的 --p 吗？</summary>
+    <p>只有你在那条 prompt 上打开了「公开 P 值」才能。没打开的话，服务器根本不会把它发给访客的浏览器，导出文件里也不会有。投稿者提交的 <code>--p</code> 永远不会公开。</p></details>
+  <details><summary>被人截图或者整包导出怎么办？</summary>
+    <p>能看到就能复制，这一点任何网站都防不住。这个站能做的是让你知道每个码在几台设备上用过、什么时候来过，并且一键作废。不想让访客批量导出的话，把 <code>EXPORT_FOR</code> 设成 <code>"admin"</code>。</p></details>
+  <details><summary>Windows 能用吗？</summary>
+    <p>能。命令在 PowerShell 里完全一样。</p></details>
+  <details><summary>想删掉整个站</summary>
+    <p>Cloudflare 后台 → Workers &amp; Pages → 删除项目；Storage &amp; Databases 里删除同名的 D1 和 KV。删完就什么都不剩了。</p></details>
+</section>
+</main>
+<footer class="wrap">MIT · made by NullPointer · <a href="https://github.com/coredump119/lune-share">GitHub</a> · 姊妹项目 <a href="https://github.com/coredump119/lune-releases">LUNE</a></footer>
+<button class="theme" aria-label="切换深浅色" title="切换深浅色">◐</button>
+<script>
+document.querySelectorAll('.cmd').forEach(function (el) {
+  var text = el.textContent; var b = document.createElement('button'); b.type = 'button'; b.textContent = '复制'
+  b.addEventListener('click', function () { navigator.clipboard.writeText(text).then(function () { b.textContent = '已复制'; b.classList.add('done'); setTimeout(function () { b.textContent = '复制'; b.classList.remove('done') }, 1400) }) })
+  el.appendChild(b)
+})
+var root = document.documentElement
+try { var t = localStorage.getItem('ls-docs-theme'); if (t) root.dataset.theme = t } catch (e) {}
+document.querySelector('.theme').addEventListener('click', function () {
+  var dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
+  root.dataset.theme = dark ? 'light' : 'dark'; try { localStorage.setItem('ls-docs-theme', root.dataset.theme) } catch (e) {}
+})
+</script>
+</body>
+</html>

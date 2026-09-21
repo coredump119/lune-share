@@ -1,0 +1,24 @@
+# `npm run setup` writes the real wrangler.toml for you. This file only shows its shape.
+name = "my-prompts"
+compatibility_date = "2025-09-01"
+pages_build_output_dir = "dist"
+
+[vars]
+SITE_NAME = "Prompt Share"
+SITE_TAGLINE = "invite only"
+SESSION_DAYS = "30"
+EXPORT_FOR = "all"          # or "admin"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "my-prompts"
+database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+# pick ONE image store
+[[kv_namespaces]]           # free, no card, 1 GB
+binding = "IMAGES_KV"
+id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]            # 10 GB free, needs a card on file
+# binding = "IMAGES"
+# bucket_name = "my-prompts-images"

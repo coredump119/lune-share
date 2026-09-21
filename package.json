@@ -1,0 +1,29 @@
+{
+  "name": "lune-share",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "dev": "vite",
+    "build": "tsc -p tsconfig.app.json --noEmit && vite build",
+    "deploy": "npm run build && node scripts/deploy.mjs",
+    "db:apply": "node scripts/deploy.mjs db",
+    "preview:cf": "npm run build && wrangler pages dev dist"
+  },
+  "dependencies": {
+    "docx": "^9.7.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250906.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.4.1",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5",
+    "wrangler": "^4.30.0"
+  },
+  "license": "MIT"
+}
