@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LUNE Share · 安装教程</title>
-<meta name="description" content="十分钟，把邀请制的 Midjourney prompt 分享站装到你自己的 Cloudflare 免费账号上。">
+<meta name="description" content="不需要懂代码。跟着点、复制、粘贴，二十分钟拥有自己的邀请制 Midjourney prompt 分享站。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -49,165 +49,372 @@ footer{padding:56px 0 64px;text-align:center;color:var(--faint);font-size:13px}
 .theme{position:fixed;right:14px;bottom:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;font-size:16px;z-index:9}
 @media (max-width:560px){.facts{grid-template-columns:1fr}header{padding-top:48px}.cmd{padding-right:18px;padding-top:46px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+
+/* ---------- beginner guide additions ---------- */
+.hello{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px 22px 14px;margin:8px 0 0}
+.hello p{margin:6px 0 12px}
+.os{display:inline-flex;padding:4px;border-radius:12px;background:var(--accent-soft);gap:4px;margin:6px 0}
+.os button{height:38px;padding:0 18px;border-radius:9px;border:0;background:transparent;color:var(--soft);font:inherit;font-size:14px;cursor:pointer}
+.os button.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+body[data-os="mac"] .win,body[data-os="win"] .mac{display:none}
+.progress{position:sticky;top:0;z-index:6;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.progress .wrap{display:flex;align-items:center;gap:12px;padding-top:10px;padding-bottom:10px}
+.progress .bar{flex:1;height:6px;border-radius:99px;background:var(--line);overflow:hidden}.progress .bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .4s}
+.progress span{font:500 11.5px/1 "JetBrains Mono",monospace;color:var(--soft);white-space:nowrap}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 24px 20px;margin:22px 0;scroll-margin-top:60px;transition:opacity .3s}
+.step.done{opacity:.62}.step.done:hover,.step.done:focus-within{opacity:1}
+.step-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}
+.step-n{flex:0 0 auto;width:40px;height:40px;border-radius:50%;background:var(--accent-soft);font:500 17px/40px "Cormorant Garamond",serif;text-align:center}
+.step.done .step-n{background:var(--ok);color:#fff}
+.step h2{font-size:27px;margin:2px 0 0;display:block}.step .time{font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.08em;color:var(--faint);display:block;margin-top:6px}
+.do{margin:16px 0 4px;padding:0;list-style:none;counter-reset:d}
+.do>li{counter-increment:d;position:relative;padding:0 0 16px 34px}
+.do>li::before{content:counter(d);position:absolute;left:0;top:3px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);font:500 11px/21px "JetBrains Mono",monospace;text-align:center;color:var(--soft)}
+.donebtn{display:flex;align-items:center;gap:10px;width:100%;height:46px;margin-top:6px;padding:0 16px;border-radius:12px;border:1px dashed var(--line);background:transparent;color:var(--soft);font:inherit;font-size:14.5px;cursor:pointer}
+.donebtn::before{content:"";width:18px;height:18px;border-radius:6px;border:1.5px solid var(--faint);flex:0 0 auto}
+.donebtn:hover{border-color:var(--accent);color:var(--ink)}
+.step.done .donebtn{border-style:solid;border-color:var(--ok);color:var(--ok)}.step.done .donebtn::before{background:var(--ok);border-color:var(--ok);box-shadow:inset 0 0 0 3px var(--paper)}
+.see{font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:16px 0 -6px;display:block}
+.kbd{display:inline-block;min-width:26px;padding:1px 7px;border-radius:6px;border:1px solid var(--line);border-bottom-width:2px;background:var(--bg);font:12.5px/1.6 "JetBrains Mono",monospace;text-align:center}
+.tip{background:var(--accent-soft);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.tip b:first-child{margin-right:4px}
+figure{margin:16px 0}figure img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);cursor:zoom-in}
+figcaption{font-size:13px;color:var(--soft);margin-top:8px;text-align:center}
+.shots{display:grid;grid-template-columns:1.9fr 1fr;gap:12px;align-items:start}.shots figure{margin:0}
+/* drawn "what you will see" windows */
+.win-mock{border-radius:12px;overflow:hidden;border:1px solid var(--line);margin:14px 0;box-shadow:0 8px 24px rgba(0,0,0,.10)}
+.win-mock .bar{display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;background:#e9e2e6;color:#5a4f57;font-size:12px}
+:root[data-theme="dark"] .win-mock .bar{background:#2c2735;color:#b9a6b3}
+.win-mock .bar i{width:11px;height:11px;border-radius:50%;background:#ff5f57}.win-mock .bar i:nth-child(2){background:#febc2e}.win-mock .bar i:nth-child(3){background:#28c840}.win-mock .bar b{flex:1;text-align:center;font-weight:500;margin-right:40px}
+.win-mock .body{background:var(--code);color:var(--code-ink);padding:14px 16px;font:12.5px/1.8 "JetBrains Mono",monospace;white-space:pre;overflow-x:auto}
+.win-mock .body .d{opacity:.5}.win-mock .body .g{color:#8fc7a4}.win-mock .body .y{color:#f5c6d6}.win-mock .body .cur{display:inline-block;width:8px;height:15px;background:var(--code-ink);vertical-align:-2px;animation:blink 1.1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.spot{display:flex;align-items:center;gap:12px;max-width:420px;margin:14px auto;padding:12px 16px;border-radius:14px;background:var(--paper);border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.14);font-size:17px}
+.spot .ic{font-size:18px;color:var(--faint)}.spot .hit{margin-left:auto;font-size:12px;color:var(--faint)}
+.addr{display:flex;align-items:center;gap:8px;max-width:520px;margin:14px auto;padding:8px 12px;border-radius:8px;background:var(--paper);border:1px solid var(--accent);font:13.5px "JetBrains Mono",monospace}
+.addr .ic{color:var(--faint)}
+.allow{max-width:340px;margin:14px auto;padding:20px;border-radius:14px;background:var(--paper);border:1px solid var(--line);text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.10);font-size:14px}
+.allow .logo{font-size:26px}.allow .row{display:flex;gap:8px;justify-content:center;margin-top:14px}.allow .row span{height:34px;line-height:34px;padding:0 18px;border-radius:8px;border:1px solid var(--line);font-size:13px}.allow .row span.go{background:#f6821f;border-color:#f6821f;color:#fff;box-shadow:0 0 0 4px var(--accent-soft)}
+.qa{border:1px solid var(--line);border-radius:12px;margin:10px 0;overflow:hidden}.qa .q{background:var(--code);color:var(--code-ink);font:12.5px/1.6 "JetBrains Mono",monospace;padding:10px 14px;white-space:pre-wrap}.qa .a{padding:10px 14px;font-size:14.5px}
+.help{margin-top:12px}.help summary{font-weight:400;font-size:14.5px;color:var(--soft)}
+.party{text-align:center;padding:30px 20px;border-radius:18px;background:var(--accent-soft);margin:22px 0}.party b{font:italic 400 34px/1.2 "Cormorant Garamond",serif;display:block;margin-bottom:6px}
+.cmd{white-space:pre-wrap;word-break:break-all;font-size:14.5px;padding:18px 96px 18px 18px}.cmd button{height:36px;padding:0 16px;font-size:13px;top:11px}
+@media (max-width:560px){.shots{grid-template-columns:1fr}.step{padding:20px 16px 16px;border-radius:14px}.cmd{padding:52px 16px 16px}}
+@media (prefers-reduced-motion:reduce){.win-mock .body .cur{animation:none}.progress .bar i{transition:none}}
 </style>
 </head>
-<body>
+<body data-os="mac">
 <header class="wrap">
-  <span class="eyebrow">LUNE Share · Setup Guide</span>
-  <h1>你自己的邀请制 prompt 站</h1>
-  <p class="lede">给 Midjourney 创作者。一人一码，随时作废。整个站跑在你自己的 Cloudflare 免费账号上，数据不经过任何别人。</p>
-  <div class="cta"><a class="btn primary" href="#install">开始安装</a><a class="btn" href="https://github.com/coredump119/lune-share">GitHub 仓库</a></div>
+  <span class="eyebrow">LUNE Share · 手把手教程</span>
+  <h1>做一个只属于你的 prompt 站</h1>
+  <p class="lede">不需要懂代码。整个过程就是：点几下、复制、粘贴、回车。泡杯茶的时间就能弄完。</p>
+  <div class="cta"><a class="btn primary" href="#s1">从第一步开始</a><a class="btn" href="#preview">先看看成品</a></div>
   <div class="facts">
-    <div class="fact"><b>10 分钟</b><span>从零到上线</span></div>
-    <div class="fact"><b>0 元</b><span>不需要绑卡</span></div>
-    <div class="fact"><b>4 条命令</b><span>其余全自动</span></div>
+    <div class="fact"><b>约 20 分钟</b><span>第一次慢慢来也够</span></div>
+    <div class="fact"><b>0 元</b><span>全程不用绑卡</span></div>
+    <div class="fact"><b>2 条命令</b><span>都可以一键复制</span></div>
   </div>
 </header>
-<nav class="toc"><div class="wrap"><a href="#need">准备</a><a href="#install">安装</a><a href="#first">第一次使用</a><a href="#daily">日常</a><a href="#change">修改和更新</a><a href="#quota">免费额度</a><a href="#faq">常见问题</a></div></nav>
+
+<div class="progress"><div class="wrap"><span id="ptext">0 / 7 步</span><div class="bar"><i id="pbar"></i></div><span id="pnext"></span></div></div>
+
 <main class="wrap">
 
-<section id="need">
-  <h2><span class="n">00</span>准备两样东西</h2>
-  <ol class="steps">
-    <li><b>Cloudflare 账号</b>。没有的话去 <a href="https://dash.cloudflare.com/sign-up">dash.cloudflare.com/sign-up</a> 用邮箱注册，免费，不用填卡。</li>
-    <li><b>Node.js 18 或更新</b>。去 <a href="https://nodejs.org">nodejs.org</a> 下载左边那个 LTS 版本，一路下一步装完。</li>
-  </ol>
-  <p class="muted small">装完 Node 后打开终端（Mac：启动台搜「终端」；Windows：开始菜单搜「PowerShell」），输入 <code>node -v</code>，看到 <code>v18</code> 以上的数字就好了。</p>
+<section id="preview" style="padding-top:34px">
+  <h2><span class="n">成品</span>你会得到什么</h2>
+  <p>一个只有拿到邀请码的人才能进的网站。你在后台传图、贴 prompt，朋友打开网址输入码就能看、能一键复制。</p>
+  <div class="shots">
+    <figure><img src="img/site-gallery.webp" alt="画廊页面：瀑布流排列的 prompt 卡片" loading="lazy" width="1500" height="938"><figcaption>朋友看到的样子</figcaption></figure>
+    <figure><img src="img/site-mobile.webp" alt="手机上的画廊页面" loading="lazy" width="640" height="1385"><figcaption>手机上也好用</figcaption></figure>
+  </div>
+  <figure><img src="img/site-gate.webp" alt="进门页：输入邀请码" loading="lazy" width="1400" height="875"><figcaption>没有邀请码的人只能看到这一页</figcaption></figure>
+  <div class="hello">
+    <p><b>先说三件让你放心的事：</b></p>
+    <p>① 站是建在<b>你自己的</b> Cloudflare 账号上的，图片和邀请码都只在你手里，不经过我，也不经过任何别人。</p>
+    <p>② Cloudflare 是一家很大的网络公司，个人用它的免费额度完全够，<b>不用填银行卡</b>，超了也只是暂停，不会扣钱。</p>
+    <p>③ 中途哪一步弄错了都没关系，<b>弄不坏任何东西</b>，重来一遍就好。</p>
+  </div>
 </section>
 
-<section id="install">
-  <h2><span class="n">01</span>安装</h2>
-  <h3>拿到代码</h3>
-  <p>会用 git 的话：</p>
-  <div class="cmd">git clone https://github.com/coredump119/lune-share.git my-prompts
-cd my-prompts</div>
-  <p>想把代码也存一份在自己的 GitHub 上：在仓库页点绿色的 <b>Use this template → Create a new repository</b>（建议选 Private），然后 clone 你自己的那个仓库。</p>
-  <p>不会用 git：打开 <a href="https://github.com/coredump119/lune-share">GitHub 仓库</a>，点绿色的 <b>Code → Download ZIP</b>，解压。然后在终端里输入 <code>cd </code>（后面有个空格），把解压出来的文件夹拖进终端窗口，回车。</p>
-  <h3>装依赖</h3>
-  <div class="cmd">npm install --legacy-peer-deps</div>
-  <p class="muted small">大约一分钟。看到 warning 不用管，没有红色的 ERR 就行。</p>
-  <h3>一键配置</h3>
-  <div class="cmd">npm run setup</div>
-  <p>它会依次做这些事：</p>
-  <ol class="steps">
-    <li>打开浏览器让你<b>登录 Cloudflare</b>，点 Allow 授权。这一步授权的是你电脑上的命令行工具，不是我，也不是任何第三方。</li>
-    <li>问你四个问题。直接回车就是用括号里的默认值。</li>
-    <li>在你的账号里建数据库、图片存储，生成两个随机密钥，构建并部署。</li>
+<section style="padding-top:34px">
+  <h2><span class="n">开始前</span>你用的是哪种电脑？</h2>
+  <p class="muted">选一下，下面的步骤会自动换成对应的说明。</p>
+  <div class="os" role="tablist"><button type="button" data-os="mac" class="on">🍎 Mac</button><button type="button" data-os="win">🪟 Windows</button></div>
+</section>
+
+<!-- ============ 1 ============ -->
+<article class="step" id="s1" data-step>
+  <div class="step-head"><div class="step-n">1</div><div><h2>注册一个 Cloudflare 账号</h2><span class="time">约 2 分钟 · 已经有账号就直接打勾</span></div></div>
+  <p>你的网站之后就住在这里。注册是免费的，只需要一个邮箱。</p>
+  <ol class="do">
+    <li>点这个按钮打开注册页：<br><a class="btn" style="margin-top:8px" href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener">打开 Cloudflare 注册页 ↗</a></li>
+    <li>填邮箱和密码，点 <b>Sign up</b>。</li>
+    <li>去邮箱里点一下验证邮件里的链接。</li>
   </ol>
-  <div class="term"><span class="d">[2/8]</span> A few questions
-  Project id, becomes &lt;id&gt;.pages.dev <span class="d">(my-prompts)</span>: <span class="y">moon-prompts</span>
-  Site name shown to visitors <span class="d">(Prompt Share)</span>: <span class="y">月光词包</span>
-  Small line above the name <span class="d">(invite only)</span>: <span class="y">by moon</span>
-  Where should images live?
-    1) KV  — free, no credit card, 1 GB total
-    2) R2  — free up to 10 GB, needs a card on file
-  Choose 1 or 2 <span class="d">(1)</span>: <span class="y">1</span>
-<span class="d">…</span>
+  <div class="tip"><b>💡</b>注册完它可能会问你要不要添加网站、要不要买域名。都<b>不用管</b>，直接关掉那个页面就行。</div>
+  <button class="donebtn" type="button">我注册好了</button>
+</article>
+
+<!-- ============ 2 ============ -->
+<article class="step" id="s2" data-step>
+  <div class="step-head"><div class="step-n">2</div><div><h2>装一个叫 Node.js 的小工具</h2><span class="time">约 3 分钟</span></div></div>
+  <p>它是让等会儿那两条命令能跑起来的「发动机」。装上就行，之后你不需要打开它，也不需要懂它。</p>
+  <ol class="do">
+    <li>点这个按钮打开官网：<br><a class="btn" style="margin-top:8px" href="https://nodejs.org/zh-cn/download" target="_blank" rel="noopener">打开 Node.js 下载页 ↗</a></li>
+    <li class="mac">页面上找到带 <b>.pkg</b> 字样的 macOS 安装程序按钮，点它下载。下载完双击它，一路点「继续」「同意」「安装」，中间会让你输一次开机密码。</li>
+    <li class="win">页面上找到带 <b>.msi</b> 字样的 Windows 安装程序按钮，点它下载。下载完双击它，一路点 <b>Next</b>，看到要打勾同意协议就打勾，最后点 <b>Install</b> 和 <b>Finish</b>。</li>
+    <li>看到「安装成功」就好了。</li>
+  </ol>
+  <div class="tip"><b>💡</b>页面上如果有好几个版本，选带 <b>LTS</b> 字样的那个（意思是「稳定版」）。</div>
+  <button class="donebtn" type="button">我装好了</button>
+</article>
+
+<!-- ============ 3 ============ -->
+<article class="step" id="s3" data-step>
+  <div class="step-head"><div class="step-n">3</div><div><h2>把网站的代码下载到电脑上</h2><span class="time">约 1 分钟</span></div></div>
+  <p>就是下载一个压缩包，再解压。和下载别的文件没有区别。</p>
+  <ol class="do">
+    <li>点这个按钮直接下载：<br><a class="btn primary" style="margin-top:8px" href="https://github.com/coredump119/lune-share/archive/refs/heads/main.zip">⬇ 下载代码压缩包 (.zip)</a></li>
+    <li class="mac">在「下载」文件夹里找到 <code>lune-share-main.zip</code>，<b>双击</b>它，旁边会多出一个同名的文件夹。</li>
+    <li class="win">在「下载」文件夹里找到 <code>lune-share-main.zip</code>，<b>右键 → 全部解压缩 → 解压</b>。</li>
+    <li>把解压出来的 <code>lune-share-main</code> 文件夹<b>拖到桌面上</b>。这样等会儿好找。</li>
+  </ol>
+  <div class="tip"><b>⚠️</b>这个文件夹以后<b>不要删</b>。里面之后会生成你的后台密码，改网站名字、更新版本也都要用到它。想换个地方放可以，但别丢。</div>
+  <details class="help"><summary>按钮点了没反应？也可以从 GitHub 页面下载</summary>
+    <p>打开 <a href="https://github.com/coredump119/lune-share" target="_blank" rel="noopener">github.com/coredump119/lune-share</a>，先点绿色的 <b>Code</b>，再点最下面的 <b>Download ZIP</b>：</p>
+    <figure><img src="img/github-zip.webp" alt="GitHub 页面上先点 Code 再点 Download ZIP" loading="lazy" width="1500" height="628"></figure>
+  </details>
+  <button class="donebtn" type="button">文件夹已经在桌面上了</button>
+</article>
+
+<!-- ============ 4 ============ -->
+<article class="step" id="s4" data-step>
+  <div class="step-head"><div class="step-n">4</div><div><h2>打开「命令行」窗口</h2><span class="time">约 2 分钟 · 这是全程最陌生的一步，其实很简单</span></div></div>
+  <p><b>命令行是什么？</b>就是一个用<b>打字</b>代替点鼠标来指挥电脑的窗口。它长得黑乎乎的有点唬人，但你只需要往里面<b>粘贴</b>我给你的文字，再按回车。不用自己打一个字母。</p>
+
+  <div class="mac">
+    <ol class="do">
+      <li>同时按 <span class="kbd">⌘</span> + <span class="kbd">空格</span>，屏幕中间会出现一个搜索框。</li>
+      <li>输入「<b>终端</b>」两个字（或者 <code>terminal</code>），按 <span class="kbd">回车</span>。
+        <div class="spot"><span class="ic">⌕</span><span>终端</span><span class="hit">应用程序 · 按回车打开</span></div></li>
+      <li>会弹出一个这样的窗口。这就是命令行，Mac 上它叫「终端」：
+        <div class="win-mock"><div class="bar"><i></i><i></i><i></i><b>终端</b></div><div class="body"><span class="d">Last login: Mon Sep 21 10:02:11</span>
+你的名字@MacBook ~ % <span class="cur"></span></div></div></li>
+      <li>现在要告诉它「去桌面上那个文件夹里干活」。先点下面的复制按钮，然后在终端窗口里按 <span class="kbd">⌘</span> + <span class="kbd">V</span> 粘贴，再按 <span class="kbd">回车</span>：
+        <div class="cmd">cd ~/Desktop/lune-share-main</div></li>
+    </ol>
+    <span class="see">成功的话你会看到</span>
+    <div class="win-mock"><div class="bar"><i></i><i></i><i></i><b>终端</b></div><div class="body">你的名字@MacBook ~ % cd ~/Desktop/lune-share-main
+你的名字@MacBook <span class="y">lune-share-main</span> % <span class="cur"></span></div></div>
+    <p class="muted small">注意 % 前面的字变成了 <code>lune-share-main</code>。这就说明它已经「走进」那个文件夹了。没有别的提示是正常的，命令行的习惯是「没消息就是好消息」。</p>
+    <details class="help"><summary>提示 no such file or directory（找不到文件夹）</summary>
+      <p>说明文件夹不在桌面上，或者名字不一样。换个万能的办法：在终端里先输入 <code>cd</code> 再按一下<b>空格</b>，然后用鼠标把那个文件夹<b>直接拖进终端窗口</b>，路径会自动填上，再按回车。</p></details>
+  </div>
+
+  <div class="win">
+    <ol class="do">
+      <li>双击打开桌面上的 <code>lune-share-main</code> 文件夹。确认你能看到里面有 <code>package.json</code>、<code>src</code> 这些东西。如果里面只有另一个同名文件夹，就再点进去一层。</li>
+      <li>点一下窗口上方的<b>地址栏</b>（显示文件夹路径的那一长条），里面的字会变成蓝色选中状态。</li>
+      <li>直接输入 <code>cmd</code> 三个字母，按 <span class="kbd">回车</span>。
+        <div class="addr"><span class="ic">📁</span><span>cmd</span></div></li>
+      <li>会弹出一个黑色的窗口。这就是命令行，而且它已经自动「站」在这个文件夹里了：
+        <div class="win-mock"><div class="bar" style="justify-content:flex-start"><b style="text-align:left;margin:0">C:\Windows\System32\cmd.exe</b></div><div class="body">Microsoft Windows [版本 10.0.22631]
+(c) Microsoft Corporation。保留所有权利。
+
+C:\Users\你的名字\Desktop\<span class="y">lune-share-main</span>&gt;<span class="cur"></span></div></div></li>
+    </ol>
+    <p class="muted small">看到最后一行以 <code>lune-share-main&gt;</code> 结尾就对了。</p>
+    <div class="tip"><b>💡</b>在这个黑窗口里粘贴，用 <span class="kbd">Ctrl</span> + <span class="kbd">V</span>，或者直接<b>点一下鼠标右键</b>。</div>
+    <details class="help"><summary>为什么不用 PowerShell？</summary><p>PowerShell 在有些电脑上默认禁止运行脚本，会报一段红字。用 cmd 就没有这个问题。</p></details>
+  </div>
+  <button class="donebtn" type="button">命令行已经打开，并且在文件夹里了</button>
+</article>
+
+<!-- ============ 5 ============ -->
+<article class="step" id="s5" data-step>
+  <div class="step-head"><div class="step-n">5</div><div><h2>第一条命令：把零件装齐</h2><span class="time">约 1–2 分钟，主要是等</span></div></div>
+  <p>这条命令会自动下载网站需要的零件。你只要粘贴、回车，然后等它跑完。</p>
+  <ol class="do">
+    <li>点复制，在命令行窗口里粘贴（<span class="mac"><span class="kbd">⌘</span> + <span class="kbd">V</span></span><span class="win">鼠标右键</span>），按 <span class="kbd">回车</span>：
+      <div class="cmd">npm install --legacy-peer-deps</div></li>
+    <li>屏幕上会滚过一些字，中间可能停顿十几秒像卡住了一样。<b>别关窗口，等着就行。</b></li>
+  </ol>
+  <span class="see">跑完的样子</span>
+  <div class="win-mock"><div class="bar"><i></i><i></i><i></i><b>命令行</b></div><div class="body">added 312 packages, and audited 313 packages in 48s
+
+<span class="g">found 0 vulnerabilities</span>
+lune-share-main % <span class="cur"></span></div></div>
+  <p class="muted small">看到 <code>added … packages</code> 并且最后一行又回到了等你输入的状态，就是成功了。数字和我写的不一样没关系。中间出现黄色的 <code>warn</code> 也不用管，那只是提醒。</p>
+  <details class="help"><summary>提示 command not found: npm，或者「npm 不是内部或外部命令」</summary>
+    <p>意思是电脑还不认识 Node.js。最常见的原因是：你是在装 Node.js <b>之前</b>打开的这个窗口。把命令行窗口关掉，重新做一遍第 4 步，再来。还不行的话，回第 2 步重新装一次 Node.js。</p></details>
+  <details class="help"><summary>出现一大片红色的 ERR</summary>
+    <p>十有八九是网络问题。再粘贴运行一次同样的命令，通常就好了。如果你在用代理或 VPN，开着或者关掉各试一次。</p></details>
+  <button class="donebtn" type="button">跑完了，没有红色报错</button>
+</article>
+
+<!-- ============ 6 ============ -->
+<article class="step" id="s6" data-step>
+  <div class="step-head"><div class="step-n">6</div><div><h2>第二条命令：一键建站</h2><span class="time">约 5 分钟 · 最后一条了</span></div></div>
+  <p>这条命令会替你把所有麻烦事做完：登录你的 Cloudflare、建数据库、建图片仓库、生成后台密码、把网站发布上线。你只需要点一次「允许」，再回答四个小问题。</p>
+  <ol class="do">
+    <li>复制、粘贴、回车：
+      <div class="cmd">npm run setup</div></li>
+    <li><b>浏览器会自己弹出来</b>，让你登录 Cloudflare（用第 1 步注册的账号）。登录后出现一个授权页面，点橙色的 <b>Allow</b>。
+      <div class="allow"><div class="logo">☁️</div><b>Wrangler</b> 想要访问你的 Cloudflare 账号<div class="row"><span>Cancel</span><span class="go">Allow</span></div></div>
+      <span class="muted small">Wrangler 是 Cloudflare 官方的命令行工具，现在就跑在你自己的电脑上。这个授权是给它的，不是给我，也不是给任何网站。看到 “You have granted authorization” 就可以关掉网页，回到命令行窗口。</span></li>
+    <li>回到命令行，它会问你四个问题。<b>每个问题输入完按回车</b>；想用括号里的默认值就直接按回车。</li>
+  </ol>
+
+  <div class="qa"><div class="q">Project id, becomes &lt;id&gt;.pages.dev (my-prompts):</div><div class="a"><b>你的网址。</b>比如输入 <code>moon-prompts</code>，网址就是 moon-prompts.pages.dev。只能用<b>小写英文字母、数字和横线</b>，不能有中文和空格。取个别人不太会用的名字。</div></div>
+  <div class="qa"><div class="q">Site name shown to visitors (Prompt Share):</div><div class="a"><b>网站的名字。</b>会显示在进门页和页面顶上。<b>可以写中文</b>，比如「月光词包」。以后能改。</div></div>
+  <div class="qa"><div class="q">Small line above the name (can be empty) (invite only):</div><div class="a"><b>名字上面的一行小字。</b>比如 <code>by moon</code>。不知道写什么就直接回车。</div></div>
+  <div class="qa"><div class="q">Where should images live?  1) KV   2) R2
+Choose 1 or 2 (1):</div><div class="a"><b>图片存哪里。直接按回车选 1 就好。</b>1 完全免费、不用绑卡，能放大约 3000 张图。2 容量更大，但需要先在 Cloudflare 绑一张卡。以后想换可以再换。</div></div>
+
+  <p>回答完它会自己跑一两分钟，一步步打出绿色的 ✓。<b>不用管，等它出现 Done。</b></p>
+  <span class="see">最后你会看到</span>
+  <div class="win-mock"><div class="bar"><i></i><i></i><i></i><b>命令行</b></div><div class="body"><span class="d">[8/8]</span> Build and deploy
+<span class="g">  ✓ deployed</span>
+
 <span class="g">Done.</span>
-  Site        https://moon-prompts.pages.dev
+  Site        <span class="y">https://moon-prompts.pages.dev</span>
   Admin       https://moon-prompts.pages.dev/#/admin
-  Admin key   <span class="y">Xk3…（一串随机字符）</span></div>
-  <div class="note"><b>Project id</b> 会变成你的网址，只能用小写字母、数字和横线。如果这个名字已经被别人占了，Cloudflare 会自动在后面加几个字符，以最后打印出来的网址为准。</div>
-  <div class="note"><b>Admin key 就是你的后台密码。</b>它同时保存在项目文件夹的 <code>.dev.vars</code> 文件里。不要发给别人，不要截图发群。</div>
-</section>
+  Admin key   <span class="y">Xk3vT9…一串随机字符</span>   <span class="d">← also saved in .dev.vars</span></div></div>
 
-<section id="first">
-  <h2><span class="n">02</span>第一次使用</h2>
-  <ol class="steps">
-    <li>打开 <code>你的网址/#/admin</code>，粘贴 Admin key 登录。</li>
-    <li>进「<b>邀请码</b>」，填个备注（比如朋友的名字），点生成。<b>明文只显示这一次</b>，马上复制发给对方。库里只存哈希，之后连你自己也看不到。</li>
-    <li>进「<b>上传</b>」，把 MJ 原图拖进去，或者直接 <code>⌘V</code> 粘贴。如果是 MJ 下载的原图，prompt 和参数会自动读出来。</li>
-    <li>把你的网址和邀请码发给朋友。对方输入码就能看。</li>
+  <div class="tip"><b>🔑 现在做一件重要的事：</b>把 <b>Site</b>（你的网址）和 <b>Admin key</b>（你的后台密码）复制下来，存到备忘录或者密码管理器里。在命令行里用鼠标拖选文字，<span class="mac">按 <span class="kbd">⌘</span> + <span class="kbd">C</span></span><span class="win">按 <span class="kbd">回车</span>或右键</span> 就能复制。<br>Admin key <b>不要发给任何人，不要截图发群</b>。</div>
+
+  <details class="help"><summary>浏览器没有自己弹出来</summary><p>命令行里会打印一行很长的、以 <code>https://dash.cloudflare.com/oauth2/…</code> 开头的网址。把它整行复制，粘贴到浏览器地址栏里打开，效果一样。</p></details>
+  <details class="help"><summary>中途报错停住了</summary><p>再运行一次 <code>npm run setup</code> 就行。它会问你要不要覆盖（输入 <code>y</code> 回车），已经建好的东西会被找到继续用，不会重复。最常见的原因是网络断了一下，或者授权页面没点 Allow。</p></details>
+  <details class="help"><summary>最后打印的网址和我输入的名字不完全一样</summary><p>说明这个名字已经被别人用了，Cloudflare 自动在后面加了几个字符。以打印出来的那个为准。</p></details>
+  <details class="help"><summary>忘了存 Admin key 就把窗口关了</summary><p>别慌，它也保存在 <code>lune-share-main</code> 文件夹里一个叫 <code>.dev.vars</code> 的文件中。<span class="mac">这个文件名以点开头，默认看不见，在文件夹里按 <span class="kbd">⌘</span> + <span class="kbd">⇧</span> + <span class="kbd">.</span> 就会显示。用「文本编辑」打开它。</span><span class="win">在文件夹上方点「查看 → 显示 → 隐藏的项目」就能看到，用记事本打开它。</span></p></details>
+  <button class="donebtn" type="button">看到 Done 了，网址和 Admin key 都存好了</button>
+</article>
+
+<div class="party"><b>网站已经上线了 🎉</b>命令行窗口可以关掉了。剩下的全部在浏览器里点鼠标完成。</div>
+
+<!-- ============ 7 ============ -->
+<article class="step" id="s7" data-step>
+  <div class="step-head"><div class="step-n">7</div><div><h2>进后台，发出第一个邀请码</h2><span class="time">约 3 分钟</span></div></div>
+  <ol class="do">
+    <li>在浏览器打开你的 <b>Admin</b> 网址，就是你的网址后面加上 <code>/#/admin</code>。把 Admin key 粘贴进去，点登录。
+      <figure><img src="img/admin-login.webp" alt="后台登录页" loading="lazy" width="1400" height="875"></figure></li>
+    <li>点顶上的「<b>邀请码</b>」。在「给谁」里写个备注（比如朋友的名字，只有你自己看得到），点「<b>生成</b>」。
+      <figure><img src="img/admin-invites.webp" alt="邀请码页面，生成后显示一次明文" loading="lazy" width="1500" height="938"><figcaption>中间那一串就是邀请码。<b>它只显示这一次</b>，马上点「复制」发给朋友</figcaption></figure></li>
+    <li>点顶上的「<b>上传</b>」。把 Midjourney 的图拖进虚线框，或者复制图片后直接按 <span class="mac"><span class="kbd">⌘</span> + <span class="kbd">V</span></span><span class="win"><span class="kbd">Ctrl</span> + <span class="kbd">V</span></span>。贴上 prompt，点「发布」。
+      <figure><img src="img/admin-upload.webp" alt="上传页面" loading="lazy" width="1500" height="938"><figcaption>如果拖进来的是 MJ 网站下载的原图，prompt 和参数会自动填好</figcaption></figure></li>
+    <li>把<b>你的网址</b>和<b>邀请码</b>一起发给朋友，就完成了。</li>
   </ol>
-  <div class="note">图片会先在你的浏览器里重新编码成 webp 再上传。MJ 写在原图里的完整 prompt 和 <code>--p</code> 不会到服务器。每条 prompt 的 <code>--p</code> 公不公开由你单独决定，默认不公开。</div>
-</section>
+  <div class="tip"><b>🔒 关于隐私：</b>图片上传前会先在你的浏览器里重新压一遍，MJ 藏在原图文件里的完整 prompt 和 <code>--p</code> 个性化代码不会被传上去。每条 prompt 的 <code>--p</code> 要不要给别人看，由你单独打开，默认是不给看的。</div>
+  <button class="donebtn" type="button">第一个邀请码发出去了</button>
+</article>
 
 <section id="daily">
-  <h2><span class="n">03</span>日常</h2>
+  <h2><span class="n">以后</span>日常怎么用</h2>
+  <p class="muted">下面这些全都在后台页面里点鼠标完成，不用再碰命令行。</p>
+  <figure><img src="img/admin-content.webp" alt="后台内容管理页面" loading="lazy" width="1500" height="938"></figure>
   <div class="tw"><table>
     <tr><th>想做的事</th><th>在哪里</th></tr>
-    <tr><td>怀疑某个码被转发了</td><td>邀请码 → 点那一行看设备和访问记录 → 作废。对方下一次请求就会被踢出去</td></tr>
-    <tr><td>给码设有效期、限制设备数</td><td>生成时填天数和设备数</td></tr>
-    <tr><td>同一个站放好几个词包，不同的人看不同的</td><td>上传页底部建「集合」，生成邀请码时只勾对应的集合。没放进集合的 prompt 只有「全部」权限的码能看到</td></tr>
-    <tr><td>让朋友也能投稿</td><td>生成码时打开「可投稿」。投稿先进「内容 → 待审核」，你通过了才公开</td></tr>
-    <tr><td>已经在 LUNE 里整理好了</td><td>LUNE 里导出 <code>.lune.json</code>，后台「导入」选这个文件。文件夹会变成集合</td></tr>
-    <tr><td>一次处理很多条</td><td>内容 → 选择 → 批量发布 / 下架 / 置顶 / 删除</td></tr>
-    <tr><td>备份或者搬家</td><td>画廊标题下的「导出」，可以导成 <code>.lune.json</code> 或 Word</td></tr>
+    <tr><td>怀疑某个码被转发了</td><td>邀请码 → 点那一行的「详情」能看到它在几台设备上用过 → 点「作废」。对方马上就进不来了</td></tr>
+    <tr><td>给码设有效期、限制几台设备能用</td><td>生成的时候填「有效天数」和「设备上限」</td></tr>
+    <tr><td>同一个站放好几套词包，不同的人看不同的</td><td>在上传页最下面建「集合」，生成邀请码时只点亮对应的集合</td></tr>
+    <tr><td>让信任的朋友也能投稿</td><td>生成码时打开「投稿码」。投稿会先进「内容 → 待审核」，你点通过才公开</td></tr>
+    <tr><td>已经在 LUNE 里整理好了</td><td>LUNE 里导出 <code>.lune.json</code>，后台「导入」里选这个文件，文件夹会自动变成集合</td></tr>
+    <tr><td>一次处理很多条</td><td>内容 → 选择 → 批量发布、下架、置顶、删除</td></tr>
+    <tr><td>备份</td><td>画廊标题下面的「导出」，可以存成 <code>.lune.json</code> 或 Word 文档</td></tr>
   </table></div>
 </section>
 
 <section id="change">
-  <h2><span class="n">04</span>修改和更新</h2>
-  <p>改完任何东西之后，在项目文件夹里运行这一条就会重新上线：</p>
+  <h2><span class="n">偶尔</span>改名字、换背景、升级</h2>
+  <p>这几件事需要再用一次命令行。做法永远一样：先改文件，然后像第 4 步那样打开命令行并进到文件夹里，粘贴这一条：</p>
   <div class="cmd">npm run deploy</div>
+  <p class="muted small">等一分钟，看到 <code>Deployment complete</code> 就生效了。</p>
   <div class="tw"><table>
-    <tr><th>改什么</th><th>怎么改</th></tr>
-    <tr><td>站点名字、名字上面的小字</td><td>用记事本打开 <code>wrangler.toml</code>，改 <code>SITE_NAME</code> 和 <code>SITE_TAGLINE</code></td></tr>
-    <tr><td>不想让访客一键导出</td><td><code>wrangler.toml</code> 里把 <code>EXPORT_FOR</code> 改成 <code>"admin"</code></td></tr>
-    <tr><td>登录保持多少天</td><td><code>SESSION_DAYS</code></td></tr>
-    <tr><td>背景图</td><td>替换 <code>public/day.jpg</code>（浅色）和 <code>public/night.jpg</code>（深色），建议宽 2400 像素以内</td></tr>
-    <tr><td>用自己的域名</td><td>Cloudflare 后台 → Workers &amp; Pages → 你的项目 → Custom domains</td></tr>
+    <tr><th>想改什么</th><th>改哪里</th></tr>
+    <tr><td>网站名字、名字上面的小字</td><td>用<span class="mac">「文本编辑」</span><span class="win">记事本</span>打开文件夹里的 <code>wrangler.toml</code>，改 <code>SITE_NAME</code> 和 <code>SITE_TAGLINE</code> 引号里面的字，保存</td></tr>
+    <tr><td>不想让访客一键导出</td><td>同一个文件里，把 <code>EXPORT_FOR = "all"</code> 改成 <code>EXPORT_FOR = "admin"</code></td></tr>
+    <tr><td>背景图</td><td>用你自己的图替换 <code>public</code> 文件夹里的 <code>day.jpg</code>（浅色模式）和 <code>night.jpg</code>（深色模式），文件名保持一样</td></tr>
+    <tr><td>用自己买的域名</td><td>这个在 Cloudflare 网页后台点：Workers &amp; Pages → 你的项目 → Custom domains</td></tr>
   </table></div>
-  <h3>拿到模板的新版本</h3>
-  <div class="cmd">git pull
-npm install --legacy-peer-deps
-npm run db:apply
-npm run deploy</div>
-  <p class="muted small">用 ZIP 下载的话：下载新的 ZIP，把旧文件夹里的 <code>wrangler.toml</code> 和 <code>.dev.vars</code> 两个文件复制进新文件夹，再运行后三条。你的数据在 Cloudflare 上，不在这个文件夹里，不会丢。</p>
-  <div class="note"><b>换电脑前</b>把 <code>wrangler.toml</code> 和 <code>.dev.vars</code> 备份好。这两个文件是 setup 为你生成的，不会上传到 GitHub。</div>
+  <details class="help"><summary>这个模板出了新版本，我想升级</summary>
+    <p>重新下载一次压缩包并解压，把<b>旧文件夹</b>里的 <code>wrangler.toml</code> 和 <code>.dev.vars</code> 两个文件复制到<b>新文件夹</b>里。然后在新文件夹里打开命令行，依次运行下面三条。你的图片和邀请码都存在 Cloudflare 上，不在这个文件夹里，所以不会丢。</p>
+    <div class="cmd">npm install --legacy-peer-deps</div><div class="cmd">npm run db:apply</div><div class="cmd">npm run deploy</div></details>
+  <div class="note"><b>换电脑之前</b>，把文件夹里的 <code>wrangler.toml</code> 和 <code>.dev.vars</code> 这两个文件备份好。有它们在，任何一台电脑都能继续管理你的站。</div>
 </section>
 
 <section id="quota">
-  <h2><span class="n">05</span>免费额度够用吗</h2>
+  <h2><span class="n">放心</span>免费额度够不够</h2>
+  <p>个人或者一个群用，绰绰有余。</p>
   <div class="tw"><table>
-    <tr><th>服务</th><th>免费额度</th><th>大概意味着</th></tr>
-    <tr><td>Pages Functions</td><td>每天 10 万次请求</td><td>一个访客翻一遍约几十次请求</td></tr>
-    <tr><td>D1 数据库</td><td>5 GB，每天 500 万行读</td><td>文字内容永远用不完</td></tr>
-    <tr><td>KV（默认存图）</td><td>共 1 GB；每天 1000 次写、10 万次读</td><td>约 3000 张图；一天最多上传 1000 张；图片会在访客浏览器里缓存一天</td></tr>
-    <tr><td>R2（可选存图）</td><td>10 GB</td><td>需要在 Cloudflare 绑一次卡才能开通</td></tr>
+    <tr><th>项目</th><th>免费额度</th><th>大概意味着</th></tr>
+    <tr><td>网站访问</td><td>每天 10 万次请求</td><td>一个人翻一遍大约用掉几十次</td></tr>
+    <tr><td>文字内容</td><td>5 GB</td><td>prompt 文字永远用不完</td></tr>
+    <tr><td>图片（选 1 的话）</td><td>总共 1 GB；每天最多传 1000 张</td><td>大约 3000 张图</td></tr>
+    <tr><td>图片（选 2 的话）</td><td>10 GB</td><td>需要在 Cloudflare 绑一次卡才能开通</td></tr>
   </table></div>
-  <p class="muted small">数字以 <a href="https://developers.cloudflare.com/workers/platform/pricing/">Cloudflare 官方定价页</a>为准。免费档超额时请求会被拒绝，不会产生费用。只有你主动开通了付费项（比如绑卡后的 R2 超过 10 GB）才会计费。</p>
+  <p class="muted small">数字以 <a href="https://developers.cloudflare.com/workers/platform/pricing/" target="_blank" rel="noopener">Cloudflare 官方定价页</a>为准。没绑卡的免费账号超额时只会暂时拒绝访问，第二天恢复，不会产生任何费用。</p>
 </section>
 
 <section id="faq">
-  <h2><span class="n">06</span>常见问题</h2>
-  <details><summary>有没有「粘贴一个 API key 就能用」的网页版，不用装东西？</summary>
-    <p>没有，而且是故意不做的。邀请制要成立，就必须有一段只在服务器上运行、访客碰不到的代码来检查邀请码和保管密钥。如果做成一个公共网页让你粘贴 Cloudflare 的 API key，那这个 key 要么存在我的服务器上（你的账号就交到了别人手里），要么存在访客的浏览器里（任何访客都能拿走）。两种都不安全。</p>
-    <p>现在的方式是你在自己电脑上登录自己的 Cloudflare，脚本替你把所有步骤跑完。多花几分钟，换来的是整个站从头到尾只属于你。</p></details>
-  <details><summary>setup 中途失败了怎么办？</summary>
-    <p>直接再运行一次 <code>npm run setup</code>，它会问你是否覆盖，选 y。已经建好的数据库和存储会被找到并继续使用，不会重复创建。最常见的原因是网络问题，或者浏览器登录那一步没点 Allow。</p></details>
-  <details><summary>忘了 Admin key</summary>
-    <p>打开项目文件夹里的 <code>.dev.vars</code>（文件名以点开头，Mac 上按 <code>⌘⇧.</code> 显示隐藏文件）。如果这个文件也丢了，运行下面这条设一个新的，然后 <code>npm run deploy</code>：</p>
-    <div class="cmd">npx wrangler pages secret put ADMIN_SECRET --project-name 你的项目id</div></details>
-  <details><summary>我想从 KV 换到 R2</summary>
-    <p>在 Cloudflare 后台开通 R2，运行 <code>npx wrangler r2 bucket create 你的项目id-images</code>，然后在 <code>wrangler.toml</code> 里加上下面这段，再 <code>npm run deploy</code>。KV 那段保留着不要删，旧图片会继续从 KV 读，新图片写进 R2。</p>
-    <div class="cmd">[[r2_buckets]]
-binding = "IMAGES"
-bucket_name = "你的项目id-images"</div></details>
+  <h2><span class="n">疑问</span>常见问题</h2>
+  <details><summary>为什么不能做成「注册个账号就能用」的网站，非要我自己装？</summary>
+    <p>因为那样你的图、你的 prompt、你的邀请名单就全都存在我的服务器上了。现在这种方式多花你二十分钟，换来的是整个站从头到尾只属于你，我看不到里面的任何东西，哪天我不维护了它也照样能用。</p></details>
+  <details><summary>那有没有「粘贴一个 API key 就能用」的网页版？</summary>
+    <p>没有，是故意不做的。邀请制要成立，就必须有一段访客碰不到的程序来检查邀请码。如果做成公共网页让你粘贴 Cloudflare 的 key，这个 key 要么落到我手里，要么暴露在每个访客的浏览器里，两种都不安全。</p></details>
   <details><summary>访客能看到我的 --p 吗？</summary>
-    <p>只有你在那条 prompt 上打开了「公开 P 值」才能。没打开的话，服务器根本不会把它发给访客的浏览器，导出文件里也不会有。投稿者提交的 <code>--p</code> 永远不会公开。</p></details>
-  <details><summary>被人截图或者整包导出怎么办？</summary>
-    <p>能看到就能复制，这一点任何网站都防不住。这个站能做的是让你知道每个码在几台设备上用过、什么时候来过，并且一键作废。不想让访客批量导出的话，把 <code>EXPORT_FOR</code> 设成 <code>"admin"</code>。</p></details>
-  <details><summary>Windows 能用吗？</summary>
-    <p>能。命令在 PowerShell 里完全一样。</p></details>
-  <details><summary>想删掉整个站</summary>
-    <p>Cloudflare 后台 → Workers &amp; Pages → 删除项目；Storage &amp; Databases 里删除同名的 D1 和 KV。删完就什么都不剩了。</p></details>
+    <p>只有你在那条 prompt 上打开了「公开 P 值」才能。没打开的话它根本不会被发到访客的浏览器里，导出的文件里也不会有。投稿者提交的 <code>--p</code> 永远不会公开。</p></details>
+  <details><summary>被人截图，或者整包导出拿走怎么办？</summary>
+    <p>能看到就能复制，这一点任何网站都防不住。这个站能帮你做的是：知道每个码在几台设备上用过、什么时候来过，并且一键作废。不想让访客批量导出的话，按上面「改名字」那一节把 <code>EXPORT_FOR</code> 改成 <code>"admin"</code>。</p></details>
+  <details><summary>我想彻底删掉这个站</summary>
+    <p>登录 Cloudflare 网页后台 → Workers &amp; Pages → 点你的项目 → Settings 最下面 Delete。再到 Storage &amp; Databases 里把同名的 D1 和 KV 删掉。删完就什么都不剩了。</p></details>
+  <details><summary>我会用 git，有没有快一点的路</summary>
+    <div class="cmd">git clone https://github.com/coredump119/lune-share.git my-prompts && cd my-prompts && npm install --legacy-peer-deps && npm run setup</div>
+    <p>想把代码存在自己的 GitHub 上，就在仓库页点 <b>Use this template</b>，建议建成 Private。</p></details>
 </section>
 </main>
 <footer class="wrap">MIT · made by NullPointer · <a href="https://github.com/coredump119/lune-share">GitHub</a> · 姊妹项目 <a href="https://github.com/coredump119/lune-releases">LUNE</a></footer>
 <button class="theme" aria-label="切换深浅色" title="切换深浅色">◐</button>
 <script>
-document.querySelectorAll('.cmd').forEach(function (el) {
-  var text = el.textContent; var b = document.createElement('button'); b.type = 'button'; b.textContent = '复制'
-  b.addEventListener('click', function () { navigator.clipboard.writeText(text).then(function () { b.textContent = '已复制'; b.classList.add('done'); setTimeout(function () { b.textContent = '复制'; b.classList.remove('done') }, 1400) }) })
-  el.appendChild(b)
-})
-var root = document.documentElement
-try { var t = localStorage.getItem('ls-docs-theme'); if (t) root.dataset.theme = t } catch (e) {}
-document.querySelector('.theme').addEventListener('click', function () {
-  var dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
-  root.dataset.theme = dark ? 'light' : 'dark'; try { localStorage.setItem('ls-docs-theme', root.dataset.theme) } catch (e) {}
-})
+(function () {
+  var get = function (k) { try { return localStorage.getItem(k) } catch (e) { return null } }
+  var set = function (k, v) { try { localStorage.setItem(k, v) } catch (e) {} }
+  // copy buttons
+  document.querySelectorAll('.cmd').forEach(function (el) {
+    var text = el.textContent.trim(); var b = document.createElement('button'); b.type = 'button'; b.textContent = '复制'
+    b.addEventListener('click', function () { navigator.clipboard.writeText(text).then(function () { b.textContent = '已复制 ✓'; b.classList.add('done'); setTimeout(function () { b.textContent = '复制'; b.classList.remove('done') }, 1600) }) })
+    el.appendChild(b)
+  })
+  // Mac / Windows
+  var os = get('ls-docs-os') || (/Win/i.test(navigator.platform || navigator.userAgent) ? 'win' : 'mac')
+  var applyOs = function (v) { document.body.dataset.os = v; document.querySelectorAll('.os button').forEach(function (b) { b.classList.toggle('on', b.dataset.os === v) }) }
+  applyOs(os)
+  document.querySelectorAll('.os button').forEach(function (b) { b.addEventListener('click', function () { applyOs(b.dataset.os); set('ls-docs-os', b.dataset.os) }) })
+  // progress
+  var steps = [].slice.call(document.querySelectorAll('[data-step]'))
+  var done = {}; try { done = JSON.parse(get('ls-docs-done') || '{}') } catch (e) {}
+  var render = function () {
+    var n = 0; steps.forEach(function (s) { var d = !!done[s.id]; s.classList.toggle('done', d); if (d) n++ })
+    document.getElementById('ptext').textContent = n + ' / ' + steps.length + ' 步'
+    document.getElementById('pbar').style.width = (n / steps.length * 100) + '%'
+    var next = steps.filter(function (s) { return !done[s.id] })[0]
+    document.getElementById('pnext').innerHTML = next ? '<a href="#' + next.id + '" style="color:inherit">继续第 ' + next.id.slice(1) + ' 步 →</a>' : '全部完成 🎉'
+  }
+  steps.forEach(function (s, i) {
+    s.querySelector('.donebtn').addEventListener('click', function () {
+      done[s.id] = !done[s.id]; set('ls-docs-done', JSON.stringify(done)); render()
+      if (done[s.id]) { var nx = i + 1 < steps.length ? steps[i + 1] : document.getElementById('daily'); setTimeout(function () { nx.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, 250) }
+    })
+  })
+  render()
+  // screenshots open full size
+  document.querySelectorAll('figure img').forEach(function (im) { im.addEventListener('click', function () { window.open(im.src, '_blank') }) })
+  // theme
+  var root = document.documentElement; var t = get('ls-docs-theme'); if (t) root.dataset.theme = t
+  document.querySelector('.theme').addEventListener('click', function () {
+    var dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
+    root.dataset.theme = dark ? 'light' : 'dark'; set('ls-docs-theme', root.dataset.theme)
+  })
+})()
 </script>
 </body>
 </html>

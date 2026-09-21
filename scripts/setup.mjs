@@ -128,6 +128,7 @@ step(8, 'Build and deploy')
 if (!DRY) { const b = spawnSync('npm', ['run', 'build'], { stdio: 'inherit', shell: process.platform === 'win32' }); if (b.status !== 0) die('Build failed.') }
 // twice on purpose: bindings and secrets added to a brand-new project only take effect from the next deployment
 for (let i = 0; i < 2; i++) { const d = wr(['pages', 'deploy', 'dist', '--project-name', slug, '--commit-dirty=true']); if (!d.ok) die('Deploy failed.\n' + d.out) }
+console.log(c.g('  ✓ deployed'))
 if (!DRY) { const list = wr(['pages', 'project', 'list']).out; const line = list.split('\n').find((l) => l.includes(` ${slug} `) || l.includes(`│ ${slug}`)); url = (line && line.match(/[a-z0-9-]+\.pages\.dev/i)?.[0] ? 'https://' + line.match(/[a-z0-9-]+\.pages\.dev/i)[0] : url) ?? `https://${slug}.pages.dev` }
 
 console.log(`\n${c.g(c.b('Done.'))}

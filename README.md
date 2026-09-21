@@ -3,7 +3,7 @@
 给 Midjourney 创作者的**邀请制 prompt 分享站**。你上传 prompt 和图，拿到邀请码的人才能看。
 整个站跑在**你自己的** Cloudflare 免费账号上，数据、图片、邀请码都只在你手里，不经过任何别人的服务器。
 
-**图文教程 → https://coredump119.github.io/lune-share/**
+**完全没碰过代码？→ [手把手图文教程](https://coredump119.github.io/lune-share/)**，从「命令行是什么、怎么打开」讲起，每条命令都能一键复制，Mac 和 Windows 都有。
 
 ## 它能做什么
 
