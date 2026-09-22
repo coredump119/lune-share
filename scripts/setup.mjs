@@ -57,7 +57,23 @@ if (existsSync('wrangler.toml') && !DRY) {
 step(1, 'Cloudflare login')
 if (!DRY && !/You are logged in|associated with the email|Account Name/i.test(wr(['whoami']).out)) {
   console.log('  A browser window will open. Log in (or sign up, it is free) and click Allow.')
-  if (!wr(['login'], { show: true }).ok) die('Login failed. Run `npx wrangler login` yourself, then run setup again.')
+  for (let attempt = 1; ; attempt++) {
+    // from the second try on, don't reopen the default browser: just print the link so it can go into a private window
+    const r = spawnSync('npx', ['--yes', 'wrangler', 'login', ...(attempt > 1 ? ['--browser=false'] : [])], { encoding: 'utf8', shell: process.platform === 'win32', stdio: ['inherit', 'pipe', 'pipe'] })
+    const out = (r.stdout ?? '') + (r.stderr ?? '')
+    process.stdout.write(out.split('\n').filter((l) => !/CSRF|request_forbidden|Logs were written/.test(l)).join('\n'))
+    if (r.status === 0 && /Successfully logged in/i.test(out)) break
+    const csrf = /CSRF|request_forbidden/i.test(out)
+    console.log('\n' + c.y(csrf ? '  登录页面没能记住它自己的 cookie，浏览器把它拦下了。这不是你的问题，也没坏任何东西。' : '  登录没有完成。'))
+    console.log(`  请这样做，然后回到这里按回车重试：
+    1. 关掉刚才弹出来的那个浏览器标签页。
+    2. 打开 ${c.b('Chrome 或 Edge 的无痕 / 隐私窗口')}（Safari 最容易出这个问题）。
+    3. 按回车后命令行会再打印一个以 https://dash.cloudflare.com/oauth2 开头的网址，${c.b('把它整行复制到无痕窗口里打开')}，登录并点 Allow。
+    还不行的话：在浏览器里打开 dash.cloudflare.com，右上角退出登录，再回来重试。`)
+    if (attempt >= 4) die('Login still failing. Run `npx wrangler login --browser=false` yourself, open the printed link in a private window, then run setup again.')
+    const a = await ask('  准备好了按回车重试，输入 q 退出', '')
+    if (/^q/i.test(a)) process.exit(1)
+  }
 }
 console.log(c.g('  ✓ logged in'))
 

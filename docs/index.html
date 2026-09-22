@@ -283,6 +283,15 @@ Choose 1 or 2 (1):</div><div class="a"><b>图片存哪里。直接按回车选 1
 
   <div class="tip"><b>🔑 现在做一件重要的事：</b>把 <b>Site</b>（你的网址）和 <b>Admin key</b>（你的后台密码）复制下来，存到备忘录或者密码管理器里。在命令行里用鼠标拖选文字，<span class="mac">按 <span class="kbd">⌘</span> + <span class="kbd">C</span></span><span class="win">按 <span class="kbd">回车</span>或右键</span> 就能复制。<br>Admin key <b>不要发给任何人，不要截图发群</b>。</div>
 
+  <details class="help"><summary>红字 OAuth error: request_forbidden … No CSRF value</summary>
+    <p>意思是浏览器把 Cloudflare 登录页自己的 cookie 拦下了。<b>Safari 最常出这个问题</b>，Cloudflare 之前登录过但状态过期了也会。不是你的问题，也没坏任何东西。这样做：</p>
+    <ol class="do">
+      <li>关掉刚才弹出来的那个浏览器页面。</li>
+      <li>打开 <b>Chrome 或 Edge 的无痕窗口</b>（<span class="mac">Chrome 里按 <span class="kbd">⌘</span> + <span class="kbd">⇧</span> + <span class="kbd">N</span></span><span class="win">Chrome 里按 <span class="kbd">Ctrl</span> + <span class="kbd">⇧</span> + <span class="kbd">N</span></span>）。没装 Chrome 的话先去 <a href="https://www.google.com/chrome/" target="_blank" rel="noopener">google.com/chrome</a> 装一个，几分钟的事。</li>
+      <li>回到命令行，它在等你按回车重试。按回车后它不会再自己开浏览器，只会打印一个以 <code>https://dash.cloudflare.com/oauth2</code> 开头的长网址，<b>整行复制</b>，粘贴到无痕窗口的地址栏打开，登录，点 <b>Allow</b>。</li>
+      <li>看到 “You have granted authorization” 就回到命令行，它会自己继续往下走。</li>
+    </ol>
+    <p class="muted small">还不行的话：在浏览器里打开 dash.cloudflare.com，右上角头像 → Log out，然后重试。</p></details>
   <details class="help"><summary>浏览器没有自己弹出来</summary><p>命令行里会打印一行很长的、以 <code>https://dash.cloudflare.com/oauth2/…</code> 开头的网址。把它整行复制，粘贴到浏览器地址栏里打开，效果一样。</p></details>
   <details class="help"><summary>中途报错停住了</summary><p>再运行一次 <code>npm run setup</code> 就行。它会问你要不要覆盖（输入 <code>y</code> 回车），已经建好的东西会被找到继续用，不会重复。最常见的原因是网络断了一下，或者授权页面没点 Allow。</p></details>
   <details class="help"><summary>最后打印的网址和我输入的名字不完全一样</summary><p>说明这个名字已经被别人用了，Cloudflare 自动在后面加了几个字符。以打印出来的那个为准。</p></details>
