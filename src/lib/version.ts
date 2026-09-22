@@ -3,7 +3,7 @@ export const APP_VERSION = __APP_VERSION__
 const REPO = 'coredump119/lune-share'
 export const REPO_URL = `https://github.com/${REPO}`
 export const DOCS = 'https://lune-share-docs.pages.dev'
-export const CHANGELOG_URL = `${DOCS}/changelog.html`
+export const CHANGELOG_URL = `${DOCS}/changelog`
 const KEY = 'ls-latest'
 const newer = (a: string, b: string) => { const x = a.split('.').map(Number), y = b.split('.').map(Number); for (let i = 0; i < 3; i++) { if ((x[i] ?? 0) !== (y[i] ?? 0)) return (x[i] ?? 0) > (y[i] ?? 0) } return false }
 export async function checkLatest(): Promise<{ latest: string; hasUpdate: boolean } | null> {
