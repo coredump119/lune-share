@@ -287,7 +287,7 @@ Choose 1 or 2 (1):</div><div class="a"><b>图片存哪里。直接按回车选 1
     <p>意思是浏览器把 Cloudflare 登录页自己的 cookie 拦下了。<b>Safari 最常出这个问题</b>，Cloudflare 之前登录过但状态过期了也会。不是你的问题，也没坏任何东西。这样做：</p>
     <ol class="do">
       <li>关掉刚才弹出来的那个浏览器页面。</li>
-      <li>打开 <b>Chrome 或 Edge 的无痕窗口</b>（<span class="mac">Chrome 里按 <span class="kbd">⌘</span> + <span class="kbd">⇧</span> + <span class="kbd">N</span></span><span class="win">Chrome 里按 <span class="kbd">Ctrl</span> + <span class="kbd">⇧</span> + <span class="kbd">N</span></span>）。没装 Chrome 的话先去 <a href="https://www.google.com/chrome/" target="_blank" rel="noopener">google.com/chrome</a> 装一个，几分钟的事。</li>
+      <li>开一个<b>无痕（隐私）窗口</b>。先用你现在的浏览器试：Safari 按 <span class="kbd">⌘</span> + <span class="kbd">⇧</span> + <span class="kbd">N</span>，Edge / Chrome 按 <span class="mac"><span class="kbd">⌘</span></span><span class="win"><span class="kbd">Ctrl</span></span> + <span class="kbd">⇧</span> + <span class="kbd">N</span>。<br><span class="muted small">Safari 无痕也不行的话，换一个浏览器：推荐 <a href="https://www.microsoft.com/zh-cn/edge/download" target="_blank" rel="noopener">Edge</a>，微软官网国内能直接下载，装好后用它的无痕窗口。</span></li>
       <li>回到命令行，它在等你按回车重试。按回车后它不会再自己开浏览器，只会打印一个以 <code>https://dash.cloudflare.com/oauth2</code> 开头的长网址，<b>整行复制</b>，粘贴到无痕窗口的地址栏打开，登录，点 <b>Allow</b>。</li>
       <li>看到 “You have granted authorization” 就回到命令行，它会自己继续往下走。</li>
     </ol>

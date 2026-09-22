@@ -67,7 +67,7 @@ if (!DRY && !/You are logged in|associated with the email|Account Name/i.test(wr
     console.log('\n' + c.y(csrf ? '  登录页面没能记住它自己的 cookie，浏览器把它拦下了。这不是你的问题，也没坏任何东西。' : '  登录没有完成。'))
     console.log(`  请这样做，然后回到这里按回车重试：
     1. 关掉刚才弹出来的那个浏览器标签页。
-    2. 打开 ${c.b('Chrome 或 Edge 的无痕 / 隐私窗口')}（Safari 最容易出这个问题）。
+    2. 开一个${c.b('无痕 / 隐私窗口')}：Safari 按 ⌘⇧N。如果 Safari 无痕也不行，就换 Edge（微软官网国内能直接下载）或 Chrome 的无痕窗口。
     3. 按回车后命令行会再打印一个以 https://dash.cloudflare.com/oauth2 开头的网址，${c.b('把它整行复制到无痕窗口里打开')}，登录并点 Allow。
     还不行的话：在浏览器里打开 dash.cloudflare.com，右上角退出登录，再回来重试。`)
     if (attempt >= 4) die('Login still failing. Run `npx wrangler login --browser=false` yourself, open the printed link in a private window, then run setup again.')
