@@ -165,6 +165,13 @@ figcaption{font-size:13px;color:var(--soft);margin-top:8px;text-align:center}
     <li class="win">页面上找到带 <b>.msi</b> 字样的 Windows 安装程序按钮，点它下载。下载完双击它，一路点 <b>Next</b>，看到要打勾同意协议就打勾，最后点 <b>Install</b> 和 <b>Finish</b>。</li>
     <li>看到「安装成功」就好了。</li>
   </ol>
+  <details class="help"><summary>nodejs.org 打不开或者很慢（国内常见）</summary>
+    <p>用阿里的镜像：打开 <a href="https://npmmirror.com/mirrors/node/latest-v22.x/" target="_blank" rel="noopener">npmmirror.com/mirrors/node/latest-v22.x/</a>，是一个文件列表。</p>
+    <ul>
+      <li class="mac">Mac 找文件名以 <code>.pkg</code> 结尾的那个：2020 年以后的 Mac（M1 / M2 / M3 / M4 芯片）选带 <code>arm64</code> 的，更早的 Intel Mac 选带 <code>x64</code> 的。不确定就点左上角  → 关于本机 看「芯片」一栏。</li>
+      <li class="win">Windows 找文件名以 <code>x64.msi</code> 结尾的那个。</li>
+    </ul>
+  </details>
   <div class="tip"><b>💡</b>页面上如果有好几个版本，选带 <b>LTS</b> 字样的那个（意思是「稳定版」）。</div>
   <button class="donebtn" type="button">我装好了</button>
 </article>
@@ -174,13 +181,13 @@ figcaption{font-size:13px;color:var(--soft);margin-top:8px;text-align:center}
   <div class="step-head"><div class="step-n">3</div><div><h2>把网站的代码下载到电脑上</h2><span class="time">约 1 分钟</span></div></div>
   <p>就是下载一个压缩包，再解压。和下载别的文件没有区别。</p>
   <ol class="do">
-    <li>点这个按钮直接下载：<br><a class="btn primary" style="margin-top:8px" href="https://github.com/coredump119/lune-share/archive/refs/heads/main.zip">⬇ 下载代码压缩包 (.zip)</a></li>
+    <li>点这个按钮直接下载：<br><a class="btn primary" style="margin-top:8px" href="https://lune-share-docs.pages.dev/lune-share-main.zip">⬇ 下载代码压缩包 (.zip)</a></li>
     <li class="mac">在「下载」文件夹里找到 <code>lune-share-main.zip</code>，<b>双击</b>它，旁边会多出一个同名的文件夹。</li>
     <li class="win">在「下载」文件夹里找到 <code>lune-share-main.zip</code>，<b>右键 → 全部解压缩 → 解压</b>。</li>
     <li>把解压出来的 <code>lune-share-main</code> 文件夹<b>拖到桌面上</b>。这样等会儿好找。</li>
   </ol>
   <div class="tip"><b>⚠️</b>这个文件夹以后<b>不要删</b>。里面之后会生成你的后台密码，改网站名字、更新版本也都要用到它。想换个地方放可以，但别丢。</div>
-  <details class="help"><summary>按钮点了没反应？也可以从 GitHub 页面下载</summary>
+  <details class="help"><summary>按钮点了没反应？也可以从 GitHub 页面下载（国内可能很慢）</summary>
     <p>打开 <a href="https://github.com/coredump119/lune-share" target="_blank" rel="noopener">github.com/coredump119/lune-share</a>，先点绿色的 <b>Code</b>，再点最下面的 <b>Download ZIP</b>：</p>
     <figure><img src="img/github-zip.webp" alt="GitHub 页面上先点 Code 再点 Download ZIP" loading="lazy" width="1500" height="628"></figure>
   </details>

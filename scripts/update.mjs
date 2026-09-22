@@ -11,6 +11,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 const REPO = 'coredump119/lune-share'
+// the tutorial site on Cloudflare Pages mirrors the code and version info; it is reachable from mainland China, GitHub often is not
+const MIRROR = 'https://lune-share-docs.pages.dev'
 // files that older versions had and the template no longer ships
 const REMOVE = ['schema.sql']
 const KEEP = ['wrangler.toml', '.dev.vars', 'node_modules', 'dist', '.git', '.wrangler', 'public/day.jpg', 'public/night.jpg']
@@ -23,17 +25,20 @@ const mine = JSON.parse(readFileSync('package.json', 'utf8')).version
 console.log(c.b(`\nLUNE Share · update`) + c.d(`  (you have ${mine})`))
 
 console.log('\n[1/5] Downloading the latest code')
-const latestPkg = await fetch(`https://raw.githubusercontent.com/${REPO}/main/package.json`).then((r) => r.ok ? r.json() : null).catch(() => null)
-if (!latestPkg) die('Could not reach GitHub. Check your connection and try again.')
+const get = (url, ms = 20000) => fetch(url, { signal: AbortSignal.timeout(ms) }).then((r) => r.ok ? r : null).catch(() => null)
+let latestPkg = await get(`${MIRROR}/latest.json`).then((r) => r?.json())
+let source = 'mirror'
+if (!latestPkg) { latestPkg = await get(`https://raw.githubusercontent.com/${REPO}/main/package.json`).then((r) => r?.json()); source = 'github' }
+if (!latestPkg) die('Could not reach the update server (tried the mirror and GitHub). Check your connection and try again.')
 if (latestPkg.version === mine && !process.argv.includes('--force')) { console.log(c.g(`  ✓ already on the latest version (${mine}). Nothing to do.`)); process.exit(0) }
 console.log(`  ${mine} → ${c.b(latestPkg.version)}`)
 const tmp = mkdtempSync(join(tmpdir(), 'lune-share-'))
-const tgz = join(tmp, 'src.tgz')
-const bytes = await fetch(`https://github.com/${REPO}/archive/refs/heads/main.tar.gz`).then((r) => r.ok ? r.arrayBuffer() : null).catch(() => null)
-if (!bytes) die('Download failed.')
-writeFileSync(tgz, Buffer.from(bytes))
-// tar ships with macOS and with Windows 10+ (tar.exe), so no extra dependency
-if (spawnSync('tar', ['-xzf', tgz, '-C', tmp], { stdio: 'inherit' }).status !== 0) die('Could not extract the download.')
+// tar ships with macOS and Windows 10+ (tar.exe) and reads both zip and tar.gz, so no extra dependency
+let archive = null
+if (source === 'mirror') { const b = await get(`${MIRROR}/lune-share-main.zip`, 120000).then((r) => r?.arrayBuffer()); if (b) { archive = join(tmp, 'src.zip'); writeFileSync(archive, Buffer.from(b)) } }
+if (!archive) { const b = await get(`https://github.com/${REPO}/archive/refs/heads/main.tar.gz`, 120000).then((r) => r?.arrayBuffer()); if (b) { archive = join(tmp, 'src.tgz'); writeFileSync(archive, Buffer.from(b)) } }
+if (!archive) die('Download failed (tried the mirror and GitHub).')
+if (spawnSync('tar', ['-xf', archive, '-C', tmp], { stdio: 'inherit' }).status !== 0) die('Could not extract the download.')
 const srcDir = join(tmp, readdirSync(tmp).find((n) => n.startsWith('lune-share')) ?? '')
 if (!existsSync(join(srcDir, 'package.json'))) die('Unexpected download layout.')
 console.log(c.g('  ✓ downloaded'))

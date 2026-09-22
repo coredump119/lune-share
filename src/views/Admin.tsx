@@ -5,7 +5,7 @@ import { useStore, go, useIsMobile } from '../store'
 import { readImagePrompt, splitDescription } from '../lib/mjmeta'
 import { reencode, filesFromDataTransfer, fmtBytes } from '../lib/image'
 import { Masonry } from '../ui/Masonry'
-import { APP_VERSION, REPO_URL, checkLatest } from '../lib/version'
+import { APP_VERSION, CHANGELOG_URL, checkLatest } from '../lib/version'
 import { PromptCard, Detail, TopBar } from './Gallery'
 
 const TABS = [['upload', '上传'], ['content', '内容'], ['invites', '邀请码'], ['import', '导入'], ['usage', '用量']] as const
@@ -22,7 +22,7 @@ export function Admin() {
       <TopBar right={<div className="tabs">{TABS.map(([k, l]) => <button key={k} className={tab === k ? 'on' : ''} onClick={() => go(`/admin/${k}`)}>{l}</button>)}</div>} mobileRight={<span className="eyebrow" style={{ marginLeft: 'auto', marginRight: 6 }}>admin</span>} />
       {mobile && <nav className="bottomnav glass-strong">{TABS.map(([k, l]) => <button key={k} className={tab === k ? 'on' : ''} onClick={() => go(`/admin/${k}`)}>{l}</button>)}</nav>}
       <div className="page" style={{ maxWidth: 1100 }}>
-        {latest?.hasUpdate && <div className="update-note glass"><span>有新版本 <b>{latest.latest}</b>（你现在是 {APP_VERSION}）。在站点文件夹里打开命令行，运行 <code>npm run update</code> 就能升级，数据不会受影响。</span><a className="tiny" href={REPO_URL + '/blob/main/CHANGELOG.md'} target="_blank" rel="noopener">更新了什么</a></div>}
+        {latest?.hasUpdate && <div className="update-note glass"><span>有新版本 <b>{latest.latest}</b>（你现在是 {APP_VERSION}）。在站点文件夹里打开命令行，运行 <code>npm run update</code> 就能升级，数据不会受影响。</span><a className="tiny" href={CHANGELOG_URL} target="_blank" rel="noopener">更新了什么</a></div>}
         {tab === 'upload' && <Upload />}
         {tab === 'content' && <Content />}
         {tab === 'invites' && <Invites />}
