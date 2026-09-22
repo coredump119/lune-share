@@ -88,7 +88,7 @@ let storage = (await ask('  Choose 1 or 2', '1')) === '2' ? 'r2' : 'kv'
 step(3, 'Database (D1)')
 let d1 = wr(['d1', 'create', slug]); let dbId = parseId(d1.out)
 if (!dbId && !DRY) { const list = wr(['d1', 'list', '--json']).out; try { dbId = JSON.parse(list.slice(list.indexOf('['))).find((d) => d.name === slug)?.uuid ?? null } catch { /* fall through */ } }
-if (!dbId && !DRY) die('Could not create or find the D1 database.\n' + d1.out)
+if (!dbId && !DRY) die('Could not create or find the D1 database. Cloudflare said:\n' + d1.out)
 console.log(c.g(`  ✓ ${slug} ${dbId ?? '(dry run)'}`))
 
 step(4, `Image storage (${storage.toUpperCase()})`)
@@ -131,11 +131,20 @@ if (!DRY && spawnSync('node', ['scripts/migrate.mjs'], { stdio: 'inherit', shell
 console.log(c.g('  ✓ schema applied'))
 
 step(7, 'Pages project and secrets')
+// transient network errors (common on slow links) get a few retries; a real error is shown in full
+const retry = (label, args, opts) => { let r; for (let i = 1; i <= 3; i++) { r = wr(args, opts); if (r.ok) return r; if (i < 3) console.log(c.y(`  … ${label} failed, retrying (${i}/3)`)) } return r }
 const created = wr(['pages', 'project', 'create', slug, '--production-branch', 'main'])
 let url = parseUrl(created.out)
+if (!DRY && !created.ok && !/already exists|already taken|8000007/i.test(created.out)) die(`Could not create the Pages project "${slug}".\n${created.out}`)
+if (!DRY) {
+  // make sure the project really exists before storing secrets into it (a taken name fails silently otherwise)
+  const list = wr(['pages', 'project', 'list']).out
+  if (!list.includes(slug)) die(`The name "${slug}" could not be used (someone else on Cloudflare already has it). Run setup again with a different Project id.\n${created.out}`)
+}
 const adminSecret = secret(18), sessionSecret = secret(36)
 for (const [k, v] of [['ADMIN_SECRET', adminSecret], ['SESSION_SECRET', sessionSecret]]) {
-  if (!wr(['pages', 'secret', 'put', k, '--project-name', slug], { input: v + '\n' }).ok) die(`Could not store ${k}.`)
+  const r = retry(k, ['pages', 'secret', 'put', k, '--project-name', slug], { input: v + '\n' })
+  if (!r.ok) die(`Could not store ${k}. Cloudflare said:\n${r.out.trim()}\n\nUsually the network dropped for a moment. Run \`npm run setup\` again (answer y to overwrite); everything already created is reused.`)
 }
 if (!DRY) writeFileSync('.dev.vars', `# local only, never committed. ADMIN_SECRET is your admin password.\nADMIN_SECRET=${adminSecret}\nSESSION_SECRET=${sessionSecret}\n`)
 console.log(c.g('  ✓ secrets stored on Cloudflare and in .dev.vars'))
@@ -143,7 +152,7 @@ console.log(c.g('  ✓ secrets stored on Cloudflare and in .dev.vars'))
 step(8, 'Build and deploy')
 if (!DRY) { const b = spawnSync('npm', ['run', 'build'], { stdio: 'inherit', shell: process.platform === 'win32' }); if (b.status !== 0) die('Build failed.') }
 // twice on purpose: bindings and secrets added to a brand-new project only take effect from the next deployment
-for (let i = 0; i < 2; i++) { const d = wr(['pages', 'deploy', 'dist', '--project-name', slug, '--commit-dirty=true']); if (!d.ok) die('Deploy failed.\n' + d.out) }
+for (let i = 0; i < 2; i++) { const d = retry('deploy', ['pages', 'deploy', 'dist', '--project-name', slug, '--commit-dirty=true']); if (!d.ok) die('Deploy failed. Cloudflare said:\n' + d.out) }
 console.log(c.g('  ✓ deployed'))
 if (!DRY) { const list = wr(['pages', 'project', 'list']).out; const line = list.split('\n').find((l) => l.includes(` ${slug} `) || l.includes(`│ ${slug}`)); url = (line && line.match(/[a-z0-9-]+\.pages\.dev/i)?.[0] ? 'https://' + line.match(/[a-z0-9-]+\.pages\.dev/i)[0] : url) ?? `https://${slug}.pages.dev` }
 
