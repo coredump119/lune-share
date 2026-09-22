@@ -149,7 +149,7 @@ figcaption{font-size:13px;color:var(--soft);margin-top:8px;text-align:center}
   <ol class="do">
     <li>点这个按钮打开注册页：<br><a class="btn" style="margin-top:8px" href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener">打开 Cloudflare 注册页 ↗</a></li>
     <li>填邮箱和密码，点 <b>Sign up</b>。</li>
-    <li>去邮箱里点一下验证邮件里的链接。</li>
+    <li><b>去邮箱里点一下验证邮件里的链接。</b>这一步不能跳过：没验证邮箱的账号，Cloudflare 不让建站，第 6 步会卡住。没收到就看垃圾箱，或者登录 dash.cloudflare.com，页面顶部点 “Resend verification email”。</li>
   </ol>
   <div class="tip"><b>💡</b>注册完它可能会问你要不要添加网站、要不要买域名。都<b>不用管</b>，直接关掉那个页面就行。</div>
   <button class="donebtn" type="button">我注册好了</button>
@@ -293,6 +293,8 @@ Choose 1 or 2 (1):</div><div class="a"><b>图片存哪里。直接按回车选 1
       <li>看到 “You have granted authorization” 就回到命令行，它会自己继续往下走。</li>
     </ol>
     <p class="muted small">还不行的话：在浏览器里打开 dash.cloudflare.com，右上角头像 → Log out，然后重试。</p></details>
+  <details class="help"><summary>Could not create the Pages project … Your user email must been verified</summary>
+    <p>第 1 步注册后没点邮箱里的验证链接。Cloudflare 允许没验证的账号建数据库，但不允许建网站，所以卡在这里。去邮箱找 Cloudflare 的验证邮件点一下（看看垃圾箱），或者登录 <a href="https://dash.cloudflare.com" target="_blank" rel="noopener">dash.cloudflare.com</a>，页面顶部点 “Resend verification email”。验证完再运行 <code>npm run setup</code>，覆盖选 y，前面建好的东西会继续用。</p></details>
   <details class="help"><summary>Safari 说「无法连接服务器 localhost:8976」，或者 consent verifier has already been used</summary>
     <p>这多半是<b>好消息</b>：授权其实已经成功过一次了。localhost 是你自己电脑上的一个临时小窗口，命令行收到结果后就把它关了，之后再刷新或再点一次授权，就会看到这个页面。不用开梯子，和网络无关。</p>
     <ol class="do">

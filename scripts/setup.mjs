@@ -135,6 +135,10 @@ step(7, 'Pages project and secrets')
 const retry = (label, args, opts) => { let r; for (let i = 1; i <= 3; i++) { r = wr(args, opts); if (r.ok) return r; if (i < 3) console.log(c.y(`  … ${label} failed, retrying (${i}/3)`)) } return r }
 const created = wr(['pages', 'project', 'create', slug, '--production-branch', 'main'])
 let url = parseUrl(created.out)
+if (!DRY && /8000077|must been verified|must be verified/i.test(created.out)) die(`你的 Cloudflare 账号邮箱还没验证，Cloudflare 不让没验证的账号建站。
+  去邮箱找 Cloudflare 发的验证邮件（也看看垃圾箱），点里面的链接；或者打开 dash.cloudflare.com，页面顶部点 “Resend verification email”。
+  验证完再运行 npm run setup，已经建好的东西会继续用。
+  (Cloudflare: your user email must be verified, code 8000077)`)
 if (!DRY && !created.ok && !/already exists|already taken|8000007/i.test(created.out)) die(`Could not create the Pages project "${slug}".\n${created.out}`)
 if (!DRY) {
   // make sure the project really exists before storing secrets into it (a taken name fails silently otherwise)
