@@ -392,6 +392,22 @@ Choose 1 or 2 (1):</div><div class="a"><b>图片存哪里。直接按回车选 1
     <p>只有你在那条 prompt 上打开了「公开 P 值」才能。没打开的话它根本不会被发到访客的浏览器里，导出的文件里也不会有。投稿者提交的 <code>--p</code> 永远不会公开。</p></details>
   <details><summary>被人截图，或者整包导出拿走怎么办？</summary>
     <p>能看到就能复制，这一点任何网站都防不住。这个站能帮你做的是：知道每个码在几台设备上用过、什么时候来过，并且一键作废。不想让访客批量导出的话，按上面「改名字」那一节把 <code>EXPORT_FOR</code> 改成 <code>"admin"</code>。</p></details>
+  <details><summary>有人打开看不到图片，刷新又有了 / 到了下午大家都看不到图</summary>
+    <p>这是图片存在 KV（安装时选 1）的两个特点，选 R2 的站没有：</p>
+    <ul>
+      <li><b>刚上传的图要等最多 1 分钟</b>才能在所有地区看到。发到群里前等一下，或者告诉大家刷新。</li>
+      <li><b>KV 免费额度是每天 10 万次读取</b>，每个访客每看一张图算一次。群大了可能不够，到了上限当天所有人都看不到图，北京时间早上 8 点恢复。去 dash.cloudflare.com → Storage &amp; Databases → KV → 你的 namespace → Metrics 能看每天读了多少次。</li>
+    </ul>
+    <p>经常到上限的话，换成 R2（下一条），R2 每月 1000 万次读取。</p></details>
+  <details><summary>我想从 KV 换到 R2</summary>
+    <ol class="do">
+      <li>登录 dash.cloudflare.com，左边点 <b>R2 Object Storage</b>，按提示开通。这一步 Cloudflare 会要求绑一张卡，10 GB 以内不收费。</li>
+      <li>打开命令行进到站点文件夹，粘贴运行（把 <code>你的项目id</code> 换成安装时填的那个）：<div class="cmd">npx wrangler r2 bucket create 你的项目id-images</div></li>
+      <li>用文本编辑打开 <code>wrangler.toml</code>，在最后面加上这三行，同样换掉项目 id，保存：<div class="cmd">[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "你的项目id-images"</div></li>
+      <li>原来 KV 那几行<b>留着不要删</b>，旧图片会继续从 KV 读，新图片写进 R2。然后：<div class="cmd">npm run deploy</div></li>
+    </ol></details>
   <details><summary>我想彻底删掉这个站</summary>
     <p>登录 Cloudflare 网页后台 → Workers &amp; Pages → 点你的项目 → Settings 最下面 Delete。再到 Storage &amp; Databases 里把同名的 D1 和 KV 删掉。删完就什么都不剩了。</p></details>
   <details><summary>我会用 git，有没有快一点的路</summary>
