@@ -8,7 +8,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, params, data }) =>
     const own = await env.DB.prepare('SELECT p.collection_id, p.published FROM images i LEFT JOIN prompts p ON p.id = i.prompt_id WHERE i.r2_key = ?').bind(key).first<{ collection_id: string | null; published: number }>()
     if (!own || !own.published || !own.collection_id || !scope.includes(own.collection_id)) return new Response('forbidden', { status: 403 })
   }
-  const img = await getImage(env, key)
-  if (!img) return new Response('not found', { status: 404 })
-  return new Response(img.body, { headers: { 'content-type': img.type, 'cache-control': 'private, max-age=86400', 'x-content-type-options': 'nosniff' } })
+  let img
+  try { img = await getImage(env, key) } catch (e) {
+    // KV free tier: daily read quota exhausted → tell the browser to retry later instead of caching a failure
+    return new Response(/limit|quota|exceeded/i.test(String(e)) ? 'image storage read limit reached for today' : 'storage error', { status: 503, headers: { 'retry-after': '3600', 'cache-control': 'no-store' } })
+  }
+  if (!img) return new Response('not found', { status: 404, headers: { 'cache-control': 'no-store' } })
+  return new Response(img.body, { headers: { 'content-type': img.type, 'cache-control': 'private, max-age=2592000, immutable', 'x-content-type-options': 'nosniff' } })
 }
